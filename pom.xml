@@ -20,9 +20,9 @@
       <version>9.0.5.v20130815</version>
     </dependency>
     <!--<dependency>-->
-      <!--<groupId>javax.servlet</groupId>-->
-      <!--<artifactId>javax.servlet</artifactId>-->
-      <!--<version></version>-->
+    <!--<groupId>javax.servlet</groupId>-->
+    <!--<artifactId>javax.servlet</artifactId>-->
+    <!--<version></version>-->
     <!--</dependency>-->
 
 
@@ -73,6 +73,10 @@
             <goals>
               <goal>copy-dependencies</goal>
             </goals>
+            <configuration>
+              <includeScope>compile</includeScope>
+              <includeScope>runtime</includeScope>
+            </configuration>
           </execution>
         </executions>
       </plugin>
