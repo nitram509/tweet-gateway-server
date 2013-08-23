@@ -39,7 +39,7 @@ public class TwitterGatewayServerLauncher {
 
   private static Handler createDefaultHandler() {
     ResourceHandler resourceHandler = new ResourceHandler();
-    resourceHandler.setResourceBase("./web");
+    resourceHandler.setResourceBase("web");
     resourceHandler.setWelcomeFiles(new String[]{"index.html"});
     resourceHandler.setDirectoriesListed(false);
     return resourceHandler;
