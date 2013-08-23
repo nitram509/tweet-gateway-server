@@ -7,7 +7,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
-public class TwitterWebService {
+public class TwitterService {
 
   TwitterInMemoryStorage storage = new TwitterInMemoryStorage();
 

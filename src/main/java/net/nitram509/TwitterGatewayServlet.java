@@ -5,7 +5,7 @@
 package net.nitram509;
 
 
-import net.nitram509.twitter.TwitterWebService;
+import net.nitram509.twitter.TwitterService;
 import twitter4j.TwitterException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 @Path("/")
 public class TwitterGatewayServlet {
 
-  TwitterWebService twitter = new TwitterWebService();
+  TwitterService twitter = new TwitterService();
 
   @GET
   @Path("smsgateway")
