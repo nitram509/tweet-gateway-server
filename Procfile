@@ -1,0 +1,1 @@
+web:  java -cp target/classes:target/dependency/* net.nitram509.main.TwitterGatewayServer
