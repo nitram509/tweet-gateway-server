@@ -4,7 +4,6 @@ import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
-import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
@@ -40,7 +39,7 @@ public class TwitterGatewayServerLauncher {
 
   private static Handler createDefaultHandler() {
     ResourceHandler resourceHandler = new ResourceHandler();
-    resourceHandler.setResourceBase(".");
+    resourceHandler.setResourceBase("./static");
     resourceHandler.setWelcomeFiles(new String[]{"index.html"});
     resourceHandler.setDirectoriesListed(false);
     return resourceHandler;
