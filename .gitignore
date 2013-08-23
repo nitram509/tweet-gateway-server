@@ -1,5 +1,4 @@
+twitter.properties
 target
-cloudfoundry
 *.iml
 .idea
-

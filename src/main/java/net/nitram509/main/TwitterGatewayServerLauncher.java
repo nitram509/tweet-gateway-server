@@ -46,6 +46,7 @@ public class TwitterGatewayServerLauncher {
   }
 
   private static int getPort() {
+    System.out.println("consumerKey >>> " + System.getProperty("consumerKey"));
     String port = System.getenv("PORT") == null ? "5000" : System.getenv("PORT");
     return Integer.parseInt(port);
   }
