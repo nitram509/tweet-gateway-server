@@ -1,4 +1,3 @@
-
 # Twitter Gateway Server
 
 Offers a simple HTTP interface, without any authentication,
@@ -12,8 +11,8 @@ OAuth tokens for accessing Twitter.
 
 ### ConsumerKey only & dynamic access token
 
-Environment variable 'consumerKey' --> you will get one from Twitter
-Environment variable 'consumerSecret' --> you will get one from Twitter
+Environment variable 'consumerKey' --> you will get one from Twitter\
+Environment variable 'consumerSecret' --> you will get one from Twitter\
 
 Once the service is up and running, goto ````http://localhost:5000/rest/twitter````
 You will be redirected and need to sign in to Twitter. Afterwards,
