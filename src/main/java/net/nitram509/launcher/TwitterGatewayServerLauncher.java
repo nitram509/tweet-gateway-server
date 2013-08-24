@@ -1,4 +1,4 @@
-package net.nitram509.main;
+package net.nitram509.launcher;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;

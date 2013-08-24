@@ -1,1 +1,1 @@
-web:  java -cp target/classes:target/dependency/* net.nitram509.main.TwitterGatewayServerLauncher
+web:  java -cp target/classes:target/dependency/* net.nitram509.launcher.TwitterGatewayServerLauncher
