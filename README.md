@@ -29,6 +29,6 @@ Environment variable 'accessToken' --> you will get one from Twitter
 Environment variable 'accessTokenSecret' --> you will get one from Twitter
 ````
 
-Providing all 4 variables, there's no need to sign in and the service
+When providing all 4 variables, there's no need to sign in and the service
 is able to post tweets from the beginning.
 
