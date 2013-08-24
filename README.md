@@ -22,10 +22,12 @@ Twitter redirects you back to _localhost_ and thus you will have an access token
 
 ### ConsumerKey and AccessToken provided
 
+````
 Environment variable 'consumerKey' --> you will get one from Twitter
 Environment variable 'consumerSecret' --> you will get one from Twitter
 Environment variable 'accessToken' --> you will get one from Twitter
 Environment variable 'accessTokenSecret' --> you will get one from Twitter
+````
 
 Providing all 4 variables, there's no need to sign in and the service
 is able to post tweets from the beginning.
