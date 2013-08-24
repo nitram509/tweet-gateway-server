@@ -1,5 +1,6 @@
 package net.nitram509.twitter;
 
+import net.nitram509.config.EnvironmentConfig;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -9,12 +10,18 @@ import twitter4j.auth.RequestToken;
 
 public class TwitterService {
 
-  TwitterInMemoryStorage storage = new TwitterInMemoryStorage();
-
-  private String consumerKey = "";
-  private String consumerSecret = "";
-
+  private TwitterInMemoryStorage storage = new TwitterInMemoryStorage();
+  private EnvironmentConfig config = new EnvironmentConfig();
   private Twitter twitterInstance;
+
+  public TwitterService() {
+    if (config.consumerKey() == null) {
+      throw new IllegalStateException("You have to provide 'consumerKey' as ENV VAR!");
+    }
+    if (config.consumerSecret() == null) {
+      throw new IllegalStateException("You have to provide 'consumerSecret' as ENV VAR!");
+    }
+  }
 
   public String signinAndGetAuthenticationUrl(String requestUrl) throws TwitterException {
     Twitter twitter = getTwitter();
@@ -60,8 +67,16 @@ public class TwitterService {
   private Twitter getTwitter() {
     if (twitterInstance == null) {
       twitterInstance = TwitterFactory.getSingleton();
-      twitterInstance.setOAuthConsumer(consumerKey, consumerSecret);
+      twitterInstance.setOAuthConsumer(config.consumerKey(), config.consumerSecret());
+      configureOptionalAccessToken();
     }
     return twitterInstance;
+  }
+
+  private void configureOptionalAccessToken() {
+    if (config.accessToken() != null && config.accessTokenSecret() != null) {
+      AccessToken knownAccessToken = new AccessToken(config.accessToken(), config.accessTokenSecret());
+      storage.setAccessToken(knownAccessToken);
+    }
   }
 }
