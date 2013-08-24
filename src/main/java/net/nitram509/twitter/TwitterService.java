@@ -13,8 +13,8 @@ public class TwitterService {
 
   private String consumerKey = "";
   private String consumerSecret = "";
-  private String accessToken = "";
-  private String accessTokenSecret = "";
+
+  private Twitter twitterInstance;
 
   public String signinAndGetAuthenticationUrl(String requestUrl) throws TwitterException {
     Twitter twitter = getTwitter();
@@ -40,15 +40,15 @@ public class TwitterService {
     storage.setRequestToken(null);
   }
 
-  public void postMessage(String number, String message) throws TwitterException {
+  public void postMessage(String message) throws TwitterException {
     Twitter twitter = getTwitter();
     if (storage.getAccessToken() != null) {
       twitter.setOAuthAccessToken(storage.getAccessToken());
     }
-    twitter.updateStatus(new StatusUpdate(createMessage(formatMessage(number, message))));
+    twitter.updateStatus(new StatusUpdate(createMessage(formatMessage(message))));
   }
 
-  private String formatMessage(String number, String message) {
+  private String formatMessage(String message) {
     message = message.substring(0, Math.min(message.length(), 140));
     return message;
   }
@@ -58,13 +58,10 @@ public class TwitterService {
   }
 
   private Twitter getTwitter() {
-    Twitter twitter = TwitterFactory.getSingleton();
-    try {
-      twitter.setOAuthConsumer(consumerKey, consumerSecret);
-      twitter.setOAuthAccessToken(new AccessToken(accessToken, accessTokenSecret));
-    } catch (IllegalStateException e) {
-      // already set - ignore ! -- hacky but workd ;-)
+    if (twitterInstance == null) {
+      twitterInstance = TwitterFactory.getSingleton();
+      twitterInstance.setOAuthConsumer(consumerKey, consumerSecret);
     }
-    return twitter;
+    return twitterInstance;
   }
 }

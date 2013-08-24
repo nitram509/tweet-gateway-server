@@ -3,7 +3,7 @@ package net.nitram509.twitter;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
-public class TwitterInMemoryStorage {
+class TwitterInMemoryStorage {
 
   private static RequestToken requestToken = null;
   private static AccessToken accessToken = null;
