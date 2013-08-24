@@ -19,12 +19,6 @@
       <artifactId>jetty-servlet</artifactId>
       <version>9.0.5.v20130815</version>
     </dependency>
-    <!--<dependency>-->
-    <!--<groupId>javax.servlet</groupId>-->
-    <!--<artifactId>javax.servlet</artifactId>-->
-    <!--<version></version>-->
-    <!--</dependency>-->
-
 
     <dependency>
       <groupId>javax</groupId>
@@ -52,6 +46,7 @@
       <artifactId>twitter4j-core</artifactId>
       <version>3.0.3</version>
     </dependency>
+
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
@@ -79,6 +74,14 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
       </plugin>
     </plugins>
   </build>
