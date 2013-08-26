@@ -12,7 +12,6 @@ public class TwitterService {
 
   private TwitterInMemoryStorage storage = new TwitterInMemoryStorage();
   private EnvironmentConfig config = new EnvironmentConfig();
-  private Twitter twitterInstance;
 
   public TwitterService() {
     if (config.consumerKey() == null) {
@@ -65,12 +64,12 @@ public class TwitterService {
   }
 
   private Twitter getTwitter() {
-    if (twitterInstance == null) {
-      twitterInstance = TwitterFactory.getSingleton();
-      twitterInstance.setOAuthConsumer(config.consumerKey(), config.consumerSecret());
+    Twitter twitter = TwitterFactory.getSingleton();
+    if (!twitter.getAuthorization().isEnabled()) {
+      twitter.setOAuthConsumer(config.consumerKey(), config.consumerSecret());
       configureOptionalAccessToken();
     }
-    return twitterInstance;
+    return twitter;
   }
 
   private void configureOptionalAccessToken() {
