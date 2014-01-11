@@ -1,5 +1,6 @@
 package net.nitram509.launcher;
 
+import net.nitram509.config.EnvironmentConfig;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -10,6 +11,8 @@ import org.eclipse.jetty.servlet.ServletHolder;
 public class TwitterGatewayServerLauncher {
 
   public static void main(String[] args) throws Exception {
+    printConfig();
+
     Server server = new Server(getPort());
 
     HandlerList handlerList = new HandlerList();
@@ -46,8 +49,12 @@ public class TwitterGatewayServerLauncher {
   }
 
   private static int getPort() {
-    System.out.println("consumerKey >>> " + System.getProperty("consumerKey"));
     String port = System.getenv("PORT") == null ? "5000" : System.getenv("PORT");
     return Integer.parseInt(port);
+  }
+
+  private static void printConfig() {
+    EnvironmentConfig config = new EnvironmentConfig();
+    System.out.println("consumerKey >>> " + config.consumerKey());
   }
 }

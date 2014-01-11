@@ -25,7 +25,10 @@ public class TwitterGatewayServlet {
   @GET
   @Path("smsgateway")
   @Produces({TEXT_PLAIN})
-  public String getSmsGateway(@QueryParam("phone") String phone, @QueryParam("text") String text) throws TwitterException {
+  public String getSmsGateway(
+      @QueryParam("phone") String phone,
+      @QueryParam("smscenter") String smscenter,
+      @QueryParam("text") String text) throws TwitterException {
     twitter.postMessage(text);
     return "OK";
   }

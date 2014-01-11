@@ -3,7 +3,6 @@
 Offers a simple HTTP interface, without any authentication,
 and forwards/tweets every message to a well known twitter account.
 
-
 ## Configuration
 
 When running this service, you have to provide some
@@ -32,3 +31,12 @@ Environment variable 'accessTokenSecret' --> you will get one from Twitter
 When providing all 4 variables, there's no need to sign in and the service
 is able to post tweets from the beginning.
 
+## Example: Forwarding incoming SMS
+
+For example, you can use this gateway to automatically tweet incoming SMS from your smartphone.
+We've used [SMS Gateway](https://play.google.com/store/apps/details?id=eu.apksoft.android.smsgateway) tool for this.
+
+Once installed on your smartphone, you configure this app like this:
+
+1. Settings -> Activate "Forward incoming SMS to HTTP"
+2. HTTP Settings -> Set your URL for "Forward incoming SMS to HTTP" -> "http://localhost/xxx?text"
