@@ -5,12 +5,16 @@
 package net.nitram509;
 
 
+import net.nitram509.logger.ConsoleLogger;
 import net.nitram509.twitter.TwitterService;
 import twitter4j.TwitterException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import java.io.IOException;
 
@@ -20,15 +24,19 @@ import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 @Path("/")
 public class TwitterGatewayServlet {
 
-  TwitterService twitter = new TwitterService();
+  private TwitterService twitter = new TwitterService();
+  private ConsoleLogger logger = new ConsoleLogger();
 
   @GET
   @Path("smsgateway")
   @Produces({TEXT_PLAIN})
   public String getSmsGateway(
+      @QueryParam("device") String device,
       @QueryParam("phone") String phone,
       @QueryParam("smscenter") String smscenter,
       @QueryParam("text") String text) throws TwitterException {
+    GatewayTextMessage gatewayTextMessage = new GatewayTextMessage().setDevice(device).setPhone(phone).setSmscenter(smscenter).setText(text);
+    logger.infoAsJson("SmsGateway action", gatewayTextMessage);
     twitter.postMessage(text);
     return "OK";
   }

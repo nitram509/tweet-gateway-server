@@ -1,6 +1,7 @@
 package net.nitram509.launcher;
 
 import net.nitram509.config.EnvironmentConfig;
+import net.nitram509.logger.ConsoleLogger;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -55,6 +56,7 @@ public class TwitterGatewayServerLauncher {
 
   private static void printConfig() {
     EnvironmentConfig config = new EnvironmentConfig();
-    System.out.println("consumerKey >>> " + config.consumerKey());
+    ConsoleLogger logger = new ConsoleLogger();
+    logger.info("consumerKey >>> " + config.consumerKey());
   }
 }
