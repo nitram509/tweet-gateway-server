@@ -6,8 +6,11 @@ import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
+
+import javax.servlet.DispatcherType;
+import java.util.EnumSet;
 
 public class TwitterGatewayServerLauncher {
 
@@ -17,8 +20,8 @@ public class TwitterGatewayServerLauncher {
     Server server = new Server(getPort());
 
     HandlerList handlerList = new HandlerList();
+    handlerList.addHandler(createStaticResourceHandler());
     handlerList.addHandler(createServletContextHandler());
-    handlerList.addHandler(createDefaultHandler());
     server.setHandler(handlerList);
 
     server.start();
@@ -28,20 +31,20 @@ public class TwitterGatewayServerLauncher {
   private static ServletContextHandler createServletContextHandler() {
     ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
     servletContextHandler.setContextPath("/");
-    servletContextHandler.addServlet(createRestServletHolder(), "/rest/*");
+    servletContextHandler.addFilter(createRestJerseyFilterHolder(), "/*", EnumSet.allOf(DispatcherType.class));
     return servletContextHandler;
   }
 
-  private static ServletHolder createRestServletHolder() {
-    ServletHolder restServletHolder = new ServletHolder();
-    restServletHolder.setName("Jersey REST Service");
-    restServletHolder.setClassName("com.sun.jersey.spi.container.servlet.ServletContainer");
-    restServletHolder.getInitParameters().put("com.sun.jersey.config.property.packages", "net.nitram509");
-    restServletHolder.setInitOrder(1);
-    return restServletHolder;
+  private static FilterHolder createRestJerseyFilterHolder() {
+    FilterHolder filterHolder = new FilterHolder();
+    filterHolder.setName("Jersey REST");
+    filterHolder.setClassName("com.sun.jersey.spi.container.servlet.ServletContainer");
+    filterHolder.getInitParameters().put("com.sun.jersey.config.property.packages", "net.nitram509");
+    filterHolder.getInitParameters().put("com.sun.jersey.config.feature.FilterForwardOn404", "true"); // allow static resources
+    return filterHolder;
   }
 
-  private static Handler createDefaultHandler() {
+  private static Handler createStaticResourceHandler() {
     ResourceHandler resourceHandler = new ResourceHandler();
     resourceHandler.setResourceBase("web");
     resourceHandler.setWelcomeFiles(new String[]{"index.html"});

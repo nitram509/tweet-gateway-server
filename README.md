@@ -15,7 +15,7 @@ Environment variable 'consumerKey' --> you will get one from Twitter
 Environment variable 'consumerSecret' --> you will get one from Twitter
 ````
 
-Once the service is up and running, goto ````http://localhost:5000/rest/twitter````
+Once the service is up and running, goto ````http://localhost:5000/twitter````
 You will be redirected and need to sign in to Twitter. Afterwards,
 Twitter redirects you back to _localhost_ and thus you will have an access token in memory.
 
@@ -39,7 +39,7 @@ We've used [SMS Gateway](https://play.google.com/store/apps/details?id=eu.apksof
 Once installed on your smartphone, you configure this app like this:
 
 1. Settings -> Activate "Forward incoming SMS to HTTP"
-2. HTTP Settings -> Set your URL for "Forward incoming SMS to HTTP" -> "http://myserver/rest/smsgateway"
+2. HTTP Settings -> Set your URL for "Forward incoming SMS to HTTP" -> "http://myserver/smsgateway"
 3. Start the gateway
 
-   SMS Gateway will append the URL request parameters like this "http://myserver/rest/smsgateway?phone=123456789&text=testTEXT&smscenter=xxxxxxx"
+   SMS Gateway will append the URL request parameters like this "http://myserver/smsgateway?phone=123456789&text=testTEXT&smscenter=xxxxxxx"
