@@ -12,6 +12,7 @@ public class TwitterService {
 
   private TwitterInMemoryStorage storage = new TwitterInMemoryStorage();
   private EnvironmentConfig config = new EnvironmentConfig();
+  private TwitterTextHelper twitterTextHelper = new TwitterTextHelper("#epforum");
 
   public TwitterService() {
     if (config.consumerKey() == null) {
@@ -51,6 +52,7 @@ public class TwitterService {
     if (storage.getAccessToken() != null) {
       twitter.setOAuthAccessToken(storage.getAccessToken());
     }
+    message = twitterTextHelper.appendDefaultHashtag(message);
     twitter.updateStatus(new StatusUpdate(createMessage(formatMessage(message))));
   }
 

@@ -58,5 +58,6 @@ public class TwitterGatewayServerLauncher {
     EnvironmentConfig config = new EnvironmentConfig();
     ConsoleLogger logger = new ConsoleLogger();
     logger.info("consumerKey >>> " + config.consumerKey());
+    logger.info("defaultHashTag >>> " + config.defaultHashTag());
   }
 }

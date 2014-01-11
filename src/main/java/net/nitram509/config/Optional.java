@@ -4,4 +4,6 @@ public interface Optional {
   String accessToken();
 
   String accessTokenSecret();
+
+  String defaultHashTag();
 }

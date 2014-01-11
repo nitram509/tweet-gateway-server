@@ -22,4 +22,9 @@ public class EnvironmentConfig implements Mandatory, Optional {
     return System.getenv("accessTokenSecret");
   }
 
+  @Override
+  public String defaultHashTag() {
+    return System.getenv("defaultHashTag");
+  }
+
 }
