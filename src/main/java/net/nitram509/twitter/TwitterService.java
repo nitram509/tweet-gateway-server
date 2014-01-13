@@ -12,7 +12,7 @@ public class TwitterService {
 
   private TwitterInMemoryStorage storage = new TwitterInMemoryStorage();
   private EnvironmentConfig config = new EnvironmentConfig();
-  private TwitterTextHelper twitterTextHelper = new TwitterTextHelper("#epforum");
+  private TwitterTextHelper twitterTextHelper = new TwitterTextHelper(config.defaultHashTag());
 
   public TwitterService() {
     if (config.consumerKey() == null) {
