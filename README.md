@@ -43,3 +43,7 @@ Once installed on your smartphone, you configure this app like this:
 3. Start the gateway
 
    SMS Gateway will append the URL request parameters like this "http://myserver/smsgateway?phone=123456789&text=testTEXT&smscenter=xxxxxxx"
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/nitram509/twitter-gateway-server/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
