@@ -69,15 +69,8 @@ public class TwitterService {
     Twitter twitter = TwitterFactory.getSingleton();
     if (!twitter.getAuthorization().isEnabled()) {
       twitter.setOAuthConsumer(config.consumerKey(), config.consumerSecret());
-      configureOptionalAccessToken();
     }
     return twitter;
   }
 
-  private void configureOptionalAccessToken() {
-    if (config.accessToken() != null && config.accessTokenSecret() != null) {
-      AccessToken knownAccessToken = new AccessToken(config.accessToken(), config.accessTokenSecret());
-      storage.setAccessToken(knownAccessToken);
-    }
-  }
 }

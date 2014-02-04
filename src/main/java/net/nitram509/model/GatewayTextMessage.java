@@ -1,4 +1,4 @@
-package net.nitram509;
+package net.nitram509.model;
 
 public class GatewayTextMessage {
 

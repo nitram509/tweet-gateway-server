@@ -1,4 +1,4 @@
-package net.nitram509.launcher;
+package net.nitram509;
 
 import net.nitram509.config.EnvironmentConfig;
 import net.nitram509.logger.ConsoleLogger;
@@ -39,7 +39,7 @@ public class TweetGatewayServerLauncher {
     FilterHolder filterHolder = new FilterHolder();
     filterHolder.setName("Jersey REST");
     filterHolder.setClassName("com.sun.jersey.spi.container.servlet.ServletContainer");
-    filterHolder.getInitParameters().put("com.sun.jersey.config.property.packages", "net.nitram509");
+    filterHolder.getInitParameters().put("com.sun.jersey.config.property.packages", "net.nitram509.controller");
     filterHolder.getInitParameters().put("com.sun.jersey.config.feature.FilterForwardOn404", "true"); // allow static resources
     return filterHolder;
   }
@@ -60,7 +60,7 @@ public class TweetGatewayServerLauncher {
   private static void printConfig() {
     EnvironmentConfig config = new EnvironmentConfig();
     ConsoleLogger logger = new ConsoleLogger();
-    logger.info("consumerKey >>> " + config.consumerKey());
+    logger.info("twitter4j.oauth.consumerKey >>> " + config.consumerKey());
     logger.info("defaultHashTag >>> " + config.defaultHashTag());
   }
 }
