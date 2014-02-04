@@ -12,7 +12,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import javax.servlet.DispatcherType;
 import java.util.EnumSet;
 
-public class TwitterGatewayServerLauncher {
+public class TweetGatewayServerLauncher {
 
   public static void main(String[] args) throws Exception {
     printConfig();

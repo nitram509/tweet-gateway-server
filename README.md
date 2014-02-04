@@ -1,4 +1,4 @@
-# Twitter Gateway Server
+# Tweet Gateway Server
 
 Offers a simple HTTP interface, without any authentication,
 and forwards/tweets every message to a well known twitter account.
@@ -45,5 +45,5 @@ Once installed on your smartphone, you configure this app like this:
    SMS Gateway will append the URL request parameters like this "http://myserver/smsgateway?phone=123456789&text=testTEXT&smscenter=xxxxxxx"
 
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/nitram509/twitter-gateway-server/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/nitram509/tweet-gateway-server/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 

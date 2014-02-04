@@ -3,9 +3,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>net.nitram509</groupId>
-  <artifactId>twitter-gateway-server</artifactId>
+  <artifactId>tweet-gateway-server</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>twitter-gateway-server</name>
+  <name>tweet-gateway-server</name>
 
   <properties>
     <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>

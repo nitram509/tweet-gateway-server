@@ -23,7 +23,7 @@ import static javax.ws.rs.core.MediaType.TEXT_HTML;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 
 @Path("/")
-public class TwitterGatewayHttpController {
+public class TweetGatewayHttpController {
 
   private TwitterService twitter = new TwitterService();
   private ConsoleLogger logger = new ConsoleLogger();
