@@ -1,6 +1,9 @@
 package net.nitram509.logger;
 
-import com.google.gson.Gson;
+import org.codehaus.jackson.map.ObjectMapper;
+
+import java.io.IOException;
+import java.io.StringWriter;
 
 /**
  * According to Heroku, it's OK to log to console std out.
@@ -9,13 +12,21 @@ import com.google.gson.Gson;
  */
 public class ConsoleLogger {
 
+  private ObjectMapper mapper = new ObjectMapper();
+
   public void info(String message) {
     System.out.println("[INFO] " + message);
   }
 
   public void infoAsJson(String message, Object object) {
-    Gson gson = new Gson();
-    System.out.println("[INFO] " + message + " ==> " + gson.toJson(object));
+    StringWriter writer = new StringWriter();
+    try {
+      mapper.writeValue(writer, object);
+      writer.close();
+      System.out.println("[INFO] " + message + " ==> " + writer.toString());
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
 }
