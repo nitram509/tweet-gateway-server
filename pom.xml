@@ -18,7 +18,7 @@
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-servlet</artifactId>
-      <version>9.1.0.v20131115</version>
+      <version>9.1.1.v20140108</version>
     </dependency>
 
     <dependency>
@@ -30,17 +30,17 @@
     <dependency>
       <groupId>com.sun.jersey</groupId>
       <artifactId>jersey-server</artifactId>
-      <version>1.17.1</version>
+      <version>1.18</version>
     </dependency>
     <dependency>
       <groupId>com.sun.jersey</groupId>
       <artifactId>jersey-servlet</artifactId>
-      <version>1.17.1</version>
+      <version>1.18</version>
     </dependency>
     <dependency>
       <groupId>com.sun.jersey</groupId>
       <artifactId>jersey-json</artifactId>
-      <version>1.17.1</version>
+      <version>1.18</version>
       <exclusions>
         <exclusion>
           <!-- included in Java 1.7 -->
