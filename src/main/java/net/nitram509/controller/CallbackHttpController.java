@@ -14,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -24,6 +25,9 @@ import static net.nitram509.controller.SignInHttpController.DO_TWITTER_CALLBACK;
 
 @Path(DO_TWITTER_CALLBACK)
 public class CallbackHttpController {
+
+  @Context
+  UriInfo uriInfo;
 
   @GET
   @Produces({TEXT_PLAIN})
