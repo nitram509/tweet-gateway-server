@@ -11,12 +11,14 @@ import net.nitram509.tweetgateway.api.GatewayId;
 import net.nitram509.tweetgateway.api.GatewayInfo;
 import net.nitram509.tweetgateway.api.UserId;
 import net.nitram509.tweetgateway.api.UserProfile;
+import net.nitram509.tweetgateway.repository.TweetGatewayRepository;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.List;
 
 import static javax.ws.rs.core.MediaType.TEXT_HTML;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
@@ -25,6 +27,7 @@ import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 public class IndexHtmlController {
 
   private final Mustache mustache;
+  private final TweetGatewayRepository repository = TweetGatewayRepository.instance();
 
   public IndexHtmlController() {
     MustacheFactory mf = new DefaultMustacheFactory();
@@ -36,7 +39,11 @@ public class IndexHtmlController {
   @Path("index.html")
   public String getIndexHtmxl() throws IOException {
     StringWriter html = new StringWriter();
-    IndexHtmlContext model = new IndexHtmlContext(createUserMock(), createGatewayInfoMock());
+
+    UserProfile userMock = createUserMock();
+    List<GatewayInfo> gateways = repository.findGateway(userMock.getId());
+
+    IndexHtmlContext model = new IndexHtmlContext(userMock, gateways);
     mustache.execute(html, model).flush();
     return html.toString();
   }
@@ -62,19 +69,19 @@ public class IndexHtmlController {
   private static class IndexHtmlContext {
 
     private UserProfile userProfile;
-    private GatewayInfo gatewayInfo;
+    private List<GatewayInfo> gatewayInfos;
 
-    private IndexHtmlContext(UserProfile userProfile, GatewayInfo gatewayInfo) {
+    private IndexHtmlContext(UserProfile userProfile, List<GatewayInfo> gatewayInfos) {
       this.userProfile = userProfile;
-      this.gatewayInfo = gatewayInfo;
+      this.gatewayInfos = gatewayInfos;
     }
 
     public UserProfile getUserProfile() {
       return userProfile;
     }
 
-    public GatewayInfo getGatewayInfo() {
-      return gatewayInfo;
+    public List<GatewayInfo> getGatewayInfos() {
+      return gatewayInfos;
     }
   }
 
