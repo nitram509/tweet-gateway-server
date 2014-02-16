@@ -1,13 +1,16 @@
 package net.nitram509.controller;
 
+import net.nitram509.tweetgateway.api.UserId;
+import net.nitram509.tweetgateway.api.UserProfile;
+import net.nitram509.tweetgateway.repository.TweetGatewayRepository;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.User;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -20,11 +23,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
-import static javax.ws.rs.core.Response.ResponseBuilder;
 import static net.nitram509.controller.SignInHttpController.DO_TWITTER_CALLBACK;
 
 @Path(DO_TWITTER_CALLBACK)
 public class CallbackHttpController {
+
+  private TweetGatewayRepository repository = TweetGatewayRepository.instance();
 
   @Context
   UriInfo uriInfo;
@@ -42,9 +46,24 @@ public class CallbackHttpController {
       AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, oauth_verifier);
       sessionVisitor.saveAccessToken(accessToken.getToken());
       sessionVisitor.saveAccessTokenSecret(accessToken.getTokenSecret());
+
+      UserProfile userProfile = retrieveUserProfileDetails(twitter);
+      repository.save(userProfile);
     }
 
     return Response.temporaryRedirect(new URI("/")).build();
+  }
+
+  private UserProfile retrieveUserProfileDetails(Twitter twitter) throws TwitterException {
+    final long twitterId = twitter.getId();
+    User twitterUser = twitter.users().showUser(twitterId);
+    UserProfile userProfile = new UserProfile(new UserId(twitterId));
+    userProfile.setName(twitterUser.getName());
+    userProfile.setScreenName(twitterUser.getScreenName());
+    userProfile.setProfileImageUrlHttps(twitterUser.getProfileImageURLHttps());
+    userProfile.setProfileImageUrl(twitterUser.getProfileImageURL());
+    userProfile.setUrl(twitterUser.getURL());
+    return null;
   }
 
 }

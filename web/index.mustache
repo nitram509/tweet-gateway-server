@@ -1,11 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <title>Tweet Gateway Server</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Tweet Gateway Server</title>
+
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/tweet-gateway-server.css" rel="stylesheet">
+
+  <script src="libs/react-with-addons.min.js"></script>
 </head>
 
 <body>
@@ -25,22 +32,49 @@
 
 </div>
 
-<div class="well">
-  <ul>
-    {{#tweets}}
-      <li>
-        Name: {{name}}
-        User: {{user}}
-        <ol>
-          {{#textLines}}
-            <li>
-              {{description}}.
-            </li>
-          {{/textLines}}
-        </ol>
-      </li>
-    {{/tweets}}
-  </ul>
+<div class="container-fluid">
+
+  <div class="row bg-primary">
+    <div class="col-md-1">
+      <a href="{{userProfile.url}}" target="_blank"><img src="{{userProfile.profileImageUrlHttps}}" alt="{{userProfile.name}}"
+                                                         title="{{userProfile.name}}"></a>
+    </div>
+    <div class="col-md-2">
+      {{userProfile.name}} ({{userProfile.screenName}})
+    </div>
+  </div>
+
+  <h3>Your active tweet gateways</h3>
+
+  <div class="row">
+    <div class="col-md-7"><strong>URL</strong></div>
+    <div class="col-md-4"><strong>Hashtags</strong></div>
+    <div class="col-xs-1"><strong>Activity</strong></div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-7">
+      {{gatewayInfo.url}}
+    </div>
+    <div class="col-md-4">
+      {{gatewayInfo.hashtags}}
+    </div>
+    <div class="col-xs-1">{{gatewayInfo.activity}}</div>
+  </div>
+
+
+  <form class="form-inline" role="form" method="post" action="/gateways" name="createGateway">
+    <div class="form-group col-md-7">
+      <input class="form-control" type="text" name="url">
+    </div>
+    <div class="form-group col-md-4">
+      <input class="form-control" type="text" name="hashtags">
+    </div>
+    <div class="form-group col-xs-1">
+      <button id="btnCreate" class="form-control btn btn-default">Create</button>
+    </div>
+  </form>
+
 </div>
 
 <a href="https://github.com/nitram509/twitter-gateway-server"><img style="position: absolute; top: 0; right: 0; border: 0;"
