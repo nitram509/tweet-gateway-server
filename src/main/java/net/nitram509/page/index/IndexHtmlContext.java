@@ -8,10 +8,12 @@ public class IndexHtmlContext {
 
   private UserProfile userProfile;
   private List<GatewayInfo> gatewayInfos;
+  private String recaptchaHtml;
 
-  IndexHtmlContext(UserProfile userProfile, List<GatewayInfo> gatewayInfos) {
+  IndexHtmlContext(UserProfile userProfile, List<GatewayInfo> gatewayInfos, String recaptchaHtml) {
     this.userProfile = userProfile;
     this.gatewayInfos = gatewayInfos;
+    this.recaptchaHtml = recaptchaHtml;
   }
 
   public UserProfile getUserProfile() {
@@ -20,5 +22,9 @@ public class IndexHtmlContext {
 
   public List<GatewayInfo> getGatewayInfos() {
     return gatewayInfos;
+  }
+
+  public String getRecaptchaHtml() {
+    return recaptchaHtml;
   }
 }

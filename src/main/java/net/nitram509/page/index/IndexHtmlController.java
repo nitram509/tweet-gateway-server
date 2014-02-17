@@ -13,6 +13,7 @@ import net.nitram509.gateways.api.UserId;
 import net.nitram509.gateways.api.UserProfile;
 import net.nitram509.gateways.repository.TweetGateway;
 import net.nitram509.gateways.repository.TweetGatewayRepository;
+import net.nitram509.recaptcha.ReCaptchaService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -36,6 +37,7 @@ public class IndexHtmlController {
 
   private final Mustache mustache;
   private final TweetGatewayRepository repository = TweetGateway.getRepository();
+  private final ReCaptchaService reCaptchaService = new ReCaptchaService();
 
   @Context
   UriInfo uriInfo;
@@ -49,7 +51,7 @@ public class IndexHtmlController {
   @Produces({TEXT_HTML, TEXT_PLAIN})
   public Response getIndexHtml(@Context HttpServletRequest request) throws IOException, URISyntaxException {
 
-    final SessionVisitor sessionVisitor = new SessionVisitor(request.getSession(false));
+    SessionVisitor sessionVisitor = new SessionVisitor(request.getSession(false));
     if (!sessionVisitor.isAuthenticatedUser()) {
       return Response.temporaryRedirect(new URI("/signin.html")).build();
     }
@@ -61,15 +63,16 @@ public class IndexHtmlController {
   }
 
   private IndexHtmlContext createModel(SessionVisitor sessionVisitor) {
-    final UserId userId = sessionVisitor.loadCurrentUser();
-    final UserProfile userProfile = repository.getUser(userId);
-    final List<Gateway> gateways = repository.findGateways(userId);
-    final List<GatewayInfo> gatewayInfos = enrichGateways(gateways);
-    return new IndexHtmlContext(userProfile, gatewayInfos);
+    UserId userId = sessionVisitor.loadCurrentUser();
+    UserProfile userProfile = repository.getUser(userId);
+    List<Gateway> gateways = repository.findGateways(userId);
+    List<GatewayInfo> gatewayInfos = enrichGateways(gateways);
+    String recaptchaHtml = reCaptchaService.createCaptchaHtml();
+    return new IndexHtmlContext(userProfile, gatewayInfos, recaptchaHtml);
   }
 
   private List<GatewayInfo> enrichGateways(List<Gateway> gateways) {
-    final ArrayList<GatewayInfo> gatewayInfos = new ArrayList<>();
+    ArrayList<GatewayInfo> gatewayInfos = new ArrayList<>();
     for (Gateway gateway : gateways) {
       final GatewayInfo gwi = new GatewayInfo(gateway);
       final String gwUrl = uriInfo.getBaseUri().toString() + gateway.getId().getId();
