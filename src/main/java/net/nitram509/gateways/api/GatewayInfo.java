@@ -4,8 +4,7 @@ public class GatewayInfo {
 
   private final GatewayId gatewayId;
   private UserId owner;
-  private String url;
-  private String hashtags;
+  private String suffix;
   private int activity;
 
   public GatewayInfo(GatewayId gatewayId) {
@@ -24,14 +23,6 @@ public class GatewayInfo {
     this.owner = owner;
   }
 
-  public String getUrl() {
-    return url;
-  }
-
-  public void setUrl(String url) {
-    this.url = url;
-  }
-
   public int getActivity() {
     return activity;
   }
@@ -40,12 +31,12 @@ public class GatewayInfo {
     this.activity = activity;
   }
 
-  public String getHashtags() {
-    return hashtags;
+  public String getSuffix() {
+    return suffix;
   }
 
-  public void setHashtags(String hashtags) {
-    this.hashtags = hashtags;
+  public void setSuffix(String suffix) {
+    this.suffix = suffix;
   }
 
 }

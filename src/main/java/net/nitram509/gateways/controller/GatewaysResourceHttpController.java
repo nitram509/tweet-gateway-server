@@ -35,16 +35,16 @@ public class GatewaysResourceHttpController {
   @POST
   @Consumes({APPLICATION_FORM_URLENCODED})
   public Response postGateways(@FormParam("url") String url,
-                               @FormParam("hashtags") String hashtags,
+                               @FormParam("suffix") String suffix,
                                @Context HttpServletRequest request) throws URISyntaxException {
 
     final HttpSession session = request.getSession(false);
     if (session != null) {
       final SessionVisitor sessionVisitor = new SessionVisitor(session);
       if (sessionVisitor.isAuthenticatedUser()) {
-        if (url != null && !url.isEmpty() && hashtags != null && !hashtags.isEmpty()) {
+        if (url != null && !url.isEmpty() && suffix != null && !suffix.isEmpty()) {
           final UserId currentUser = sessionVisitor.loadCurrentUser();
-          createNewGateway(currentUser, url, hashtags);
+          createNewGateway(currentUser, url, suffix);
         }
       }
     }
@@ -54,8 +54,7 @@ public class GatewaysResourceHttpController {
 
   private void createNewGateway(UserId currentUser, String url, String hashtags) {
     GatewayInfo gatewayInfo = new GatewayInfo(new GatewayId(System.currentTimeMillis()));
-    gatewayInfo.setHashtags(hashtags);
-    gatewayInfo.setUrl(url);
+    gatewayInfo.setSuffix(hashtags);
     gatewayInfo.setOwner(currentUser);
     repository.save(gatewayInfo);
   }
