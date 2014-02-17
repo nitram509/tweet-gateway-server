@@ -1,7 +1,7 @@
 package net.nitram509.gateways.repository;
 
+import net.nitram509.gateways.api.Gateway;
 import net.nitram509.gateways.api.GatewayId;
-import net.nitram509.gateways.api.GatewayInfo;
 import net.nitram509.gateways.api.UserId;
 import net.nitram509.gateways.api.UserProfile;
 
@@ -108,7 +108,7 @@ public class TweetGatewayRepositoryPostgreSQL implements TweetGatewayRepository 
   }
 
   @Override
-  public void save(GatewayInfo gatewayInfo) {
+  public void save(Gateway gateway) {
     String query = "INSERT INTO gateway " +
         "        (id, owner, activity, suffix) " +
         " VALUES (? , ?    , ?       , ?     )";
@@ -116,10 +116,10 @@ public class TweetGatewayRepositoryPostgreSQL implements TweetGatewayRepository 
     try {
       statement = connection.prepareStatement(query);
       int idx = 1;
-      statement.setString(idx++, gatewayInfo.getGatewayId().getId());
-      statement.setLong(idx++, gatewayInfo.getOwner().getId());
-      statement.setInt(idx++, gatewayInfo.getActivity());
-      statement.setString(idx++, gatewayInfo.getSuffix());
+      statement.setString(idx++, gateway.getId().getId());
+      statement.setLong(idx++, gateway.getOwner().getId());
+      statement.setInt(idx++, gateway.getActivity());
+      statement.setString(idx++, gateway.getSuffix());
       statement.executeUpdate();
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -135,8 +135,8 @@ public class TweetGatewayRepositoryPostgreSQL implements TweetGatewayRepository 
   }
 
   @Override
-  public List<GatewayInfo> findGateways(UserId owner) {
-    final ArrayList<GatewayInfo> result = new ArrayList<>();
+  public List<Gateway> findGateways(UserId owner) {
+    final ArrayList<Gateway> result = new ArrayList<>();
     String query = "SELECT" +
         " id, owner, activity, suffix" +
         " FROM gateway " +
@@ -147,7 +147,7 @@ public class TweetGatewayRepositoryPostgreSQL implements TweetGatewayRepository 
       statement.setLong(1, owner.getId());
       final ResultSet resultSet = statement.executeQuery();
       while (resultSet.next()) {
-        final GatewayInfo gwi = new GatewayInfo(new GatewayId(resultSet.getString("id")));
+        final Gateway gwi = new Gateway(new GatewayId(resultSet.getString("id")));
         gwi.setOwner(new UserId(resultSet.getLong("owner")));
         gwi.setActivity(resultSet.getInt("activity"));
         gwi.setSuffix(resultSet.getString("suffix"));

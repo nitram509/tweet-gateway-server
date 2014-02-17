@@ -5,7 +5,7 @@
 package net.nitram509.gateways.controller;
 
 import net.nitram509.controller.SessionVisitor;
-import net.nitram509.gateways.api.GatewayInfo;
+import net.nitram509.gateways.api.Gateway;
 import net.nitram509.gateways.api.UserId;
 import net.nitram509.gateways.repository.TweetGateway;
 import net.nitram509.gateways.repository.TweetGatewayRepository;
@@ -30,23 +30,17 @@ public class GatewaysResourceHttpController {
   TweetGatewayRepository repository = TweetGateway.getRepository();
   IdGenerator idGenerator = new IdGenerator();
 
-  @Context
-  private UriInfo uriInfo;
-
   @POST
   @Consumes({APPLICATION_FORM_URLENCODED})
-  public Response postGateways(@FormParam("url") String url,
-                               @FormParam("suffix") String suffix,
+  public Response postGateways(@FormParam("suffix") String suffix,
                                @Context HttpServletRequest request) throws URISyntaxException {
 
     final HttpSession session = request.getSession(false);
     if (session != null) {
       final SessionVisitor sessionVisitor = new SessionVisitor(session);
       if (sessionVisitor.isAuthenticatedUser()) {
-        if (url != null && !url.isEmpty() && suffix != null && !suffix.isEmpty()) {
-          final UserId currentUser = sessionVisitor.loadCurrentUser();
-          createNewGateway(currentUser, suffix);
-        }
+        final UserId currentUser = sessionVisitor.loadCurrentUser();
+        createNewGateway(currentUser, suffix);
       }
     }
 
@@ -54,9 +48,9 @@ public class GatewaysResourceHttpController {
   }
 
   private void createNewGateway(UserId currentUser, String suffix) {
-    GatewayInfo gatewayInfo = new GatewayInfo(idGenerator.nextId());
-    gatewayInfo.setSuffix(suffix);
-    gatewayInfo.setOwner(currentUser);
-    repository.save(gatewayInfo);
+    Gateway gateway = new Gateway(idGenerator.nextId());
+    gateway.setSuffix(suffix);
+    gateway.setOwner(currentUser);
+    repository.save(gateway);
   }
 }

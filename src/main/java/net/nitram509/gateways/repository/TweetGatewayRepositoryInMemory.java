@@ -1,6 +1,6 @@
 package net.nitram509.gateways.repository;
 
-import net.nitram509.gateways.api.GatewayInfo;
+import net.nitram509.gateways.api.Gateway;
 import net.nitram509.gateways.api.UserId;
 import net.nitram509.gateways.api.UserProfile;
 
@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 public class TweetGatewayRepositoryInMemory implements TweetGatewayRepository {
 
   private final List<UserProfile> profiles = new ArrayList<>();
-  private final List<GatewayInfo> gatewayInfos = new ArrayList<>();
+  private final List<Gateway> gateways = new ArrayList<>();
 
   TweetGatewayRepositoryInMemory() {
     // singleton, make constructor private
@@ -23,8 +23,8 @@ public class TweetGatewayRepositoryInMemory implements TweetGatewayRepository {
   }
 
   @Override
-  public void save(GatewayInfo gatewayInfo) {
-    gatewayInfos.add(gatewayInfo);
+  public void save(Gateway gateway) {
+    gateways.add(gateway);
   }
 
   @Override
@@ -38,11 +38,11 @@ public class TweetGatewayRepositoryInMemory implements TweetGatewayRepository {
   }
 
   @Override
-  public List<GatewayInfo> findGateways(UserId owner) {
-    List<GatewayInfo> result = new ArrayList<>(3);
-    for (GatewayInfo gatewayInfo : gatewayInfos) {
-      if (gatewayInfo.getOwner().equals(owner)) {
-        result.add(gatewayInfo);
+  public List<Gateway> findGateways(UserId owner) {
+    List<Gateway> result = new ArrayList<>(3);
+    for (Gateway gateway : gateways) {
+      if (gateway.getOwner().equals(owner)) {
+        result.add(gateway);
       }
     }
     return result;

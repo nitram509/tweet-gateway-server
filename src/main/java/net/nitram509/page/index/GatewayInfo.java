@@ -1,14 +1,21 @@
-package net.nitram509.gateways.api;
+package net.nitram509.page.index;
+
+import net.nitram509.gateways.api.Gateway;
+import net.nitram509.gateways.api.GatewayId;
+import net.nitram509.gateways.api.UserId;
 
 public class GatewayInfo {
-
   private final GatewayId gatewayId;
   private UserId owner;
   private String suffix;
   private int activity;
+  private String url;
 
-  public GatewayInfo(GatewayId gatewayId) {
-    this.gatewayId = gatewayId;
+  public GatewayInfo(Gateway gateway) {
+    this.gatewayId = gateway.getId();
+    this.suffix = gateway.getSuffix();
+    this.owner = gateway.getOwner();
+    this.activity = gateway.getActivity();
   }
 
   public GatewayId getGatewayId() {
@@ -39,4 +46,11 @@ public class GatewayInfo {
     this.suffix = suffix;
   }
 
+  public String getUrl() {
+    return url;
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
+  }
 }

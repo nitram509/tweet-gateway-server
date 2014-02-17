@@ -1,7 +1,7 @@
 package net.nitram509.gateways.repository;
 
+import net.nitram509.gateways.api.Gateway;
 import net.nitram509.gateways.api.GatewayId;
-import net.nitram509.gateways.api.GatewayInfo;
 import net.nitram509.gateways.api.UserId;
 import net.nitram509.gateways.api.UserProfile;
 import net.nitram509.gateways.controller.IdGenerator;
@@ -53,18 +53,18 @@ public class TweetGatewayRepositoryPostgreSQLLearningTest {
   @Test(enabled = false) // writes to actual database
   public void gateway_save_and_load() {
     GatewayId gatewayId = idGenerator.nextId();
-    GatewayInfo gatewayInfo = createGatewayInfo(gatewayId, userId);
+    Gateway gateway = createGatewayInfo(gatewayId, userId);
 
-    repo.save(gatewayInfo);
+    repo.save(gateway);
 
-    List<GatewayInfo> gateways = repo.findGateways(userId);
+    List<Gateway> gateways = repo.findGateways(userId);
     assertThat(gateways.size()).isGreaterThan(0);
 
-    GatewayInfo loadedGW = gateways.get(0);
-    assertThat(loadedGW.getGatewayId()).isEqualTo(gatewayId);
-    assertThat(loadedGW.getActivity()).isEqualTo(gatewayInfo.getActivity());
-    assertThat(loadedGW.getSuffix()).isEqualTo(gatewayInfo.getSuffix());
-    assertThat(loadedGW.getOwner()).isEqualTo(gatewayInfo.getOwner());
+    Gateway loadedGW = gateways.get(0);
+    assertThat(loadedGW.getId()).isEqualTo(gatewayId);
+    assertThat(loadedGW.getActivity()).isEqualTo(gateway.getActivity());
+    assertThat(loadedGW.getSuffix()).isEqualTo(gateway.getSuffix());
+    assertThat(loadedGW.getOwner()).isEqualTo(gateway.getOwner());
   }
 
   public UserProfile createTestUser(UserId userId) {
@@ -77,11 +77,11 @@ public class TweetGatewayRepositoryPostgreSQLLearningTest {
     return profile;
   }
 
-  public GatewayInfo createGatewayInfo(GatewayId gatewayId, UserId owner) {
-    final GatewayInfo gatewayInfo = new GatewayInfo(gatewayId);
-    gatewayInfo.setOwner(owner);
-    gatewayInfo.setActivity(123);
-    gatewayInfo.setSuffix("#suffix");
-    return gatewayInfo;
+  public Gateway createGatewayInfo(GatewayId gatewayId, UserId owner) {
+    final Gateway gateway = new Gateway(gatewayId);
+    gateway.setOwner(owner);
+    gateway.setActivity(123);
+    gateway.setSuffix("#suffix");
+    return gateway;
   }
 }

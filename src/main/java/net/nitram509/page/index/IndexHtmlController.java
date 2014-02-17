@@ -2,12 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.nitram509.controller;
+package net.nitram509.page.index;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
-import net.nitram509.gateways.api.GatewayInfo;
+import net.nitram509.controller.SessionVisitor;
+import net.nitram509.gateways.api.Gateway;
 import net.nitram509.gateways.api.UserId;
 import net.nitram509.gateways.api.UserProfile;
 import net.nitram509.gateways.repository.TweetGateway;
@@ -19,10 +20,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static javax.ws.rs.core.MediaType.TEXT_HTML;
@@ -33,6 +36,9 @@ public class IndexHtmlController {
 
   private final Mustache mustache;
   private final TweetGatewayRepository repository = TweetGateway.getRepository();
+
+  @Context
+  UriInfo uriInfo;
 
   public IndexHtmlController() {
     MustacheFactory mf = new DefaultMustacheFactory();
@@ -57,33 +63,26 @@ public class IndexHtmlController {
   private IndexHtmlContext createModel(SessionVisitor sessionVisitor) {
     final UserId userId = sessionVisitor.loadCurrentUser();
     final UserProfile userProfile = repository.getUser(userId);
-    final List<GatewayInfo> gateways = repository.findGateways(userId);
-    return new IndexHtmlContext(userProfile, gateways);
+    final List<Gateway> gateways = repository.findGateways(userId);
+    final List<GatewayInfo> gatewayInfos = enrichGateways(gateways);
+    return new IndexHtmlContext(userProfile, gatewayInfos);
+  }
+
+  private List<GatewayInfo> enrichGateways(List<Gateway> gateways) {
+    final ArrayList<GatewayInfo> gatewayInfos = new ArrayList<>();
+    for (Gateway gateway : gateways) {
+      final GatewayInfo gwi = new GatewayInfo(gateway);
+      final String gwUrl = uriInfo.getBaseUri().toString() + gateway.getId().getId();
+      gwi.setUrl(gwUrl);
+      gatewayInfos.add(gwi);
+    }
+    return gatewayInfos;
   }
 
   private String renderTemplate(IndexHtmlContext model) throws IOException {
     StringWriter html = new StringWriter();
     mustache.execute(html, model).flush();
     return html.toString();
-  }
-
-  private static class IndexHtmlContext {
-
-    private UserProfile userProfile;
-    private List<GatewayInfo> gatewayInfos;
-
-    private IndexHtmlContext(UserProfile userProfile, List<GatewayInfo> gatewayInfos) {
-      this.userProfile = userProfile;
-      this.gatewayInfos = gatewayInfos;
-    }
-
-    public UserProfile getUserProfile() {
-      return userProfile;
-    }
-
-    public List<GatewayInfo> getGatewayInfos() {
-      return gatewayInfos;
-    }
   }
 
 }
