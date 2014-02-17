@@ -10,11 +10,13 @@ import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 
 import javax.servlet.DispatcherType;
+import java.net.URI;
 import java.util.EnumSet;
 
 public class TweetGatewayServerLauncher {
 
   public static void main(String[] args) throws Exception {
+    checkConfig();
     printConfig();
 
     Server server = new Server(getPort());
@@ -26,6 +28,11 @@ public class TweetGatewayServerLauncher {
 
     server.start();
     server.join();
+  }
+
+  private static void checkConfig() {
+    EnvironmentConfig config = new EnvironmentConfig();
+    config.getConnectionUri();
   }
 
   private static ServletContextHandler createServletContextHandler() {
@@ -60,6 +67,8 @@ public class TweetGatewayServerLauncher {
   private static void printConfig() {
     EnvironmentConfig config = new EnvironmentConfig();
     ConsoleLogger logger = new ConsoleLogger();
+    final URI uri = config.getConnectionUri();
+    logger.info("DATABASE_URL >>> " + uri.getHost() + (uri.getPort() > 0 ? ":" + uri.getPort() : "") + uri.getPath());
     logger.info("twitter4j.oauth.consumerKey >>> " + config.consumerKey());
     logger.info("defaultHashTag >>> " + config.defaultHashTag());
   }
