@@ -20,52 +20,56 @@
 
   <div class="row" style="background-color:#427ab9">
     <div class="col-md-1">
-      <a href="{{userProfile.url}}" target="_blank"><img class="img-rounded img-profile" src="{{userProfile.profileImageUrlHttps}}" alt="{{userProfile.name}}"
+      <a href="{{userProfile.url}}" target="_blank"><img class="img-rounded img-profile" src="{{userProfile.profileImageUrlHttps}}"
+                                                         alt="{{userProfile.name}}"
                                                          title="{{userProfile.name}}"></a>
     </div>
     <div class="col-md-10 bg-primary">
       <h2><strong>Active Tweet Gateways</strong></h2>
-      {{userProfile.name}} (<a href="https://twitter.com/{{userProfile.screenName}}" target="_blank" class="text-info" style="color: white">@{{userProfile.screenName}}</a>)
+      {{userProfile.name}} (<a href="https://twitter.com/{{userProfile.screenName}}" target="_blank" class="text-info"
+                               style="color: white">@{{userProfile.screenName}}</a>)
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-md-7"><strong>URL</strong></div>
-    <div class="col-md-4"><strong>Suffix</strong></div>
-    <div class="col-xs-1"><strong>Activity</strong></div>
-  </div>
+  <br>
 
+  <div class="row">
+    <div class="col-md-offset-1 col-md-6"><h4>URL</h4></div>
+    <div class="col-md-3"><h4>Suffix</h4></div>
+    <div class="col-xs-1"><h4>Activity</h4></div>
+  </div>
 
   {{#gatewayInfos}}
-  <div class="row">
-    <div class="col-md-7">
-      {{url}}
+    <div class="row">
+      <div class="col-md-offset-1 col-md-6">
+        {{url}}
+      </div>
+      <div class="col-md-3">
+        {{suffix}}
+      </div>
+      <div class="col-xs-1">{{activity}}</div>
     </div>
-    <div class="col-md-4">
-      {{suffix}}
-    </div>
-    <div class="col-xs-1">{{activity}}</div>
-  </div>
   {{/gatewayInfos}}
 
+  <br>
+
   <div class="row">
-    <div class="col-xs-offset-10 col-xs-1">
-      {{{recaptchaHtml}}}
+    <div class="col-md-offset-1 col-md-5">
+      <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+          <h4 class="panel-title">Create new Tweet Gateway</h4>
+        </div>
+        <div class="panel-body">
+          <form class="form-inline" role="form" method="post" action="/gateways" name="createGateway">
+            <input class="form-control" type="text" name="suffix" maxlength="140" style="min-width: 245px" placeholder="Suffix">
+            <button id="btnCreate" class="form-control btn btn-default">Create</button>
+            {{{recaptchaHtml}}}
+          </form>
+        </div>
+      </div>
     </div>
   </div>
-
-
-  <form class="form-inline" role="form" method="post" action="/gateways" name="createGateway">
-    <div class="form-group col-md-7">
-      <!--<input class="form-control" type="text" name="url">-->
-    </div>
-    <div class="form-group col-md-4">
-      <input class="form-control" type="text" name="suffix" maxlength="140">
-    </div>
-    <div class="form-group col-xs-1">
-      <button id="btnCreate" class="form-control btn btn-default">Create</button>
-    </div>
-  </form>
 
 </div>
 
