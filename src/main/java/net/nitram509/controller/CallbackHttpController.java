@@ -1,8 +1,8 @@
 package net.nitram509.controller;
 
-import net.nitram509.tweetgateway.api.UserId;
-import net.nitram509.tweetgateway.api.UserProfile;
-import net.nitram509.tweetgateway.repository.TweetGatewayRepository;
+import net.nitram509.gateways.api.UserId;
+import net.nitram509.gateways.api.UserProfile;
+import net.nitram509.gateways.repository.TweetGatewayRepository;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;

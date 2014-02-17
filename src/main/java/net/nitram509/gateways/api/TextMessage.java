@@ -1,20 +1,20 @@
-package net.nitram509.model;
+package net.nitram509.gateways.api;
 
-public class GatewayTextMessage {
+public class TextMessage {
 
   private String device;
   private String phone;
   private String smscenter;
   private String text;
 
-  public GatewayTextMessage() {
+  public TextMessage() {
   }
 
   public String getDevice() {
     return device;
   }
 
-  public GatewayTextMessage setDevice(String device) {
+  public TextMessage setDevice(String device) {
     this.device = device;
     return this;
   }
@@ -23,7 +23,7 @@ public class GatewayTextMessage {
     return phone;
   }
 
-  public GatewayTextMessage setPhone(String phone) {
+  public TextMessage setPhone(String phone) {
     this.phone = phone;
     return this;
   }
@@ -32,7 +32,7 @@ public class GatewayTextMessage {
     return smscenter;
   }
 
-  public GatewayTextMessage setSmscenter(String smscenter) {
+  public TextMessage setSmscenter(String smscenter) {
     this.smscenter = smscenter;
     return this;
   }
@@ -41,7 +41,7 @@ public class GatewayTextMessage {
     return text;
   }
 
-  public GatewayTextMessage setText(String text) {
+  public TextMessage setText(String text) {
     this.text = text;
     return this;
   }

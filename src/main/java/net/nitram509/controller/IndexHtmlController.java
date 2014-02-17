@@ -7,11 +7,10 @@ package net.nitram509.controller;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
-import net.nitram509.tweetgateway.api.GatewayId;
-import net.nitram509.tweetgateway.api.GatewayInfo;
-import net.nitram509.tweetgateway.api.UserId;
-import net.nitram509.tweetgateway.api.UserProfile;
-import net.nitram509.tweetgateway.repository.TweetGatewayRepository;
+import net.nitram509.gateways.api.GatewayInfo;
+import net.nitram509.gateways.api.UserId;
+import net.nitram509.gateways.api.UserProfile;
+import net.nitram509.gateways.repository.TweetGatewayRepository;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -56,14 +55,6 @@ public class IndexHtmlController {
     userProfile.setProfileImageUrl("http://pbs.twimg.com/profile_images/2852698200/ef5b9daaf433fcde804d5846d3c1f6b6_bigger.png");
     userProfile.setProfileImageUrlHttps("https://pbs.twimg.com/profile_images/2852698200/ef5b9daaf433fcde804d5846d3c1f6b6_bigger.png");
     return userProfile;
-  }
-
-  private GatewayInfo createGatewayInfoMock() {
-    GatewayInfo gwi = new GatewayInfo(new GatewayId(123));
-    gwi.setUrl("http://foobar");
-    gwi.setHashtags("#foo #bar");
-    gwi.setActivity(3);
-    return gwi;
   }
 
   private static class IndexHtmlContext {

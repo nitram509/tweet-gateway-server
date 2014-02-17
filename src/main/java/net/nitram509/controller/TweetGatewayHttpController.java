@@ -5,7 +5,7 @@
 package net.nitram509.controller;
 
 import net.nitram509.logger.ConsoleLogger;
-import net.nitram509.model.GatewayTextMessage;
+import net.nitram509.gateways.api.TextMessage;
 import net.nitram509.twitter.TwitterService;
 import twitter4j.TwitterException;
 
@@ -30,8 +30,8 @@ public class TweetGatewayHttpController {
       @QueryParam("phone") String phone,
       @QueryParam("smscenter") String smscenter,
       @QueryParam("text") String text) throws TwitterException {
-    GatewayTextMessage gatewayTextMessage = new GatewayTextMessage().setDevice(device).setPhone(phone).setSmscenter(smscenter).setText(text);
-    logger.infoAsJson("SmsGateway action", gatewayTextMessage);
+    TextMessage textMessage = new TextMessage().setDevice(device).setPhone(phone).setSmscenter(smscenter).setText(text);
+    logger.infoAsJson("SmsGateway action", textMessage);
     if (text == null || text.trim().isEmpty()) {
       return Response.serverError().entity("ERROR: Text is not allowed to be empty").build();
     } else {

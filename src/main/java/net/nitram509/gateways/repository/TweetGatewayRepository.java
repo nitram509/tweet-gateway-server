@@ -1,8 +1,8 @@
-package net.nitram509.tweetgateway.repository;
+package net.nitram509.gateways.repository;
 
-import net.nitram509.tweetgateway.api.GatewayInfo;
-import net.nitram509.tweetgateway.api.UserId;
-import net.nitram509.tweetgateway.api.UserProfile;
+import net.nitram509.gateways.api.GatewayInfo;
+import net.nitram509.gateways.api.UserId;
+import net.nitram509.gateways.api.UserProfile;
 
 import java.util.ArrayList;
 import java.util.List;

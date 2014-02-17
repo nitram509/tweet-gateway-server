@@ -1,4 +1,4 @@
-package net.nitram509.tweetgateway.api;
+package net.nitram509.gateways.api;
 
 import java.io.Serializable;
 

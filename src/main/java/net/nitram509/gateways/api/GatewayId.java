@@ -1,10 +1,10 @@
-package net.nitram509.tweetgateway.api;
+package net.nitram509.gateways.api;
 
-public class UserId {
+public class GatewayId {
 
   private final long id;
 
-  public UserId(long id) {
+  public GatewayId(long id) {
     this.id = id;
   }
 
@@ -17,9 +17,9 @@ public class UserId {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
-    UserId userId = (UserId) o;
+    GatewayId gatewayId = (GatewayId) o;
 
-    if (id != userId.id) return false;
+    if (id != gatewayId.id) return false;
 
     return true;
   }

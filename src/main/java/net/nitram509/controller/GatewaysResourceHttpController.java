@@ -4,19 +4,15 @@
  */
 package net.nitram509.controller;
 
-import com.sun.jersey.spi.inject.Inject;
-import net.nitram509.tweetgateway.api.GatewayId;
-import net.nitram509.tweetgateway.api.GatewayInfo;
-import net.nitram509.tweetgateway.api.UserId;
-import net.nitram509.tweetgateway.repository.TweetGatewayRepository;
+import net.nitram509.gateways.api.GatewayId;
+import net.nitram509.gateways.api.GatewayInfo;
+import net.nitram509.gateways.api.UserId;
+import net.nitram509.gateways.repository.TweetGatewayRepository;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -28,7 +24,7 @@ public class GatewaysResourceHttpController {
   TweetGatewayRepository repository = TweetGatewayRepository.instance();
 
   @Context
-  UriInfo uriInfo;
+  private UriInfo uriInfo;
 
   @POST
   @Consumes({APPLICATION_FORM_URLENCODED})
