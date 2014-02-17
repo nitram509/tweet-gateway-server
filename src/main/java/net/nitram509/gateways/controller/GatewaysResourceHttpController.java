@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.nitram509.controller;
+package net.nitram509.gateways.controller;
 
 import net.nitram509.gateways.api.GatewayId;
 import net.nitram509.gateways.api.GatewayInfo;
