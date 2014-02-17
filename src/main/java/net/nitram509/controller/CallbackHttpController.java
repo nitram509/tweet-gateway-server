@@ -43,15 +43,17 @@ public class CallbackHttpController {
     if (sessionVisitor.hasRequestToken()) {
       Twitter twitter = new TwitterFactory().getInstance();
       RequestToken requestToken = new RequestToken(sessionVisitor.loadRequestToken(), "");
+      sessionVisitor.removeRequestToken();
       AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, oauth_verifier);
       sessionVisitor.saveAccessToken(accessToken.getToken());
       sessionVisitor.saveAccessTokenSecret(accessToken.getTokenSecret());
 
       UserProfile userProfile = retrieveUserProfileDetails(twitter);
       repository.save(userProfile);
+      sessionVisitor.saveCurrentUser(userProfile.getId());
     }
 
-    return Response.temporaryRedirect(new URI("/")).build();
+    return Response.temporaryRedirect(new URI("/index.html")).build();
   }
 
   private UserProfile retrieveUserProfileDetails(Twitter twitter) throws TwitterException {

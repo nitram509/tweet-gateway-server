@@ -35,7 +35,7 @@ public class SignInHttpController {
     new SessionVisitor(request.getSession()).saveRequestToken(requestToken.getToken());
 
     String authenticationURL = requestToken.getAuthenticationURL();
-    return Response.temporaryRedirect(new URI(authenticationURL)).build();
+    return Response.seeOther(new URI(authenticationURL)).build();
   }
 
   private String computeCallbackUrl(HttpServletRequest request) {

@@ -1,6 +1,8 @@
 package net.nitram509.gateways.api;
 
-public class UserId {
+import java.io.Serializable;
+
+public class UserId implements Serializable {
 
   private final long id;
 
