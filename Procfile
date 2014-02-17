@@ -1,1 +1,1 @@
-web:  java -cp target/classes:target/dependency/* net.nitram509.TweetGatewayServerLauncher
+web:  java  -Dsun.net.inetaddr.ttl=30 -cp target/classes:target/dependency/* net.nitram509.TweetGatewayServerLauncher
