@@ -2,6 +2,7 @@ package net.nitram509.controller;
 
 import net.nitram509.gateways.api.UserId;
 import net.nitram509.gateways.api.UserProfile;
+import net.nitram509.gateways.repository.TweetGateway;
 import net.nitram509.gateways.repository.TweetGatewayRepository;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -28,7 +29,7 @@ import static net.nitram509.controller.SignInHttpController.DO_TWITTER_CALLBACK;
 @Path(DO_TWITTER_CALLBACK)
 public class CallbackHttpController {
 
-  private TweetGatewayRepository repository = TweetGatewayRepository.instance();
+  private TweetGatewayRepository repository = TweetGateway.getRepository();
 
   @Context
   UriInfo uriInfo;

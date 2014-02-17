@@ -2,9 +2,6 @@ package net.nitram509.config;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class EnvironmentConfig implements Mandatory, Optional {
 
@@ -32,18 +29,6 @@ public class EnvironmentConfig implements Mandatory, Optional {
    * </a>
    */
   @Override
-  public Connection getConnection() {
-    URI dbUri = getConnectionUri();
-    String username = dbUri.getUserInfo().split(":")[0];
-    String password = dbUri.getUserInfo().split(":")[1];
-    String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + (dbUri.getPort() > 0 ? ":" + dbUri.getPort() : "") + dbUri.getPath();
-    try {
-      return DriverManager.getConnection(dbUrl, username, password);
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
   public URI getConnectionUri() {
     try {
       final String database_url = System.getenv("DATABASE_URL");

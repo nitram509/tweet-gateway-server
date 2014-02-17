@@ -10,6 +10,7 @@ import com.github.mustachejava.MustacheFactory;
 import net.nitram509.gateways.api.GatewayInfo;
 import net.nitram509.gateways.api.UserId;
 import net.nitram509.gateways.api.UserProfile;
+import net.nitram509.gateways.repository.TweetGateway;
 import net.nitram509.gateways.repository.TweetGatewayRepository;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +32,7 @@ import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 public class IndexHtmlController {
 
   private final Mustache mustache;
-  private final TweetGatewayRepository repository = TweetGatewayRepository.instance();
+  private final TweetGatewayRepository repository = TweetGateway.getRepository();
 
   public IndexHtmlController() {
     MustacheFactory mf = new DefaultMustacheFactory();
@@ -56,7 +57,7 @@ public class IndexHtmlController {
   private IndexHtmlContext createModel(SessionVisitor sessionVisitor) {
     final UserId userId = sessionVisitor.loadCurrentUser();
     final UserProfile userProfile = repository.getUser(userId);
-    final List<GatewayInfo> gateways = repository.findGateway(userId);
+    final List<GatewayInfo> gateways = repository.findGateways(userId);
     return new IndexHtmlContext(userProfile, gateways);
   }
 

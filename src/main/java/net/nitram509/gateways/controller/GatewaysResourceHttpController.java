@@ -5,9 +5,9 @@
 package net.nitram509.gateways.controller;
 
 import net.nitram509.controller.SessionVisitor;
-import net.nitram509.gateways.api.GatewayId;
 import net.nitram509.gateways.api.GatewayInfo;
 import net.nitram509.gateways.api.UserId;
+import net.nitram509.gateways.repository.TweetGateway;
 import net.nitram509.gateways.repository.TweetGatewayRepository;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +27,8 @@ import static javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED;
 @Path("/gateways")
 public class GatewaysResourceHttpController {
 
-  TweetGatewayRepository repository = TweetGatewayRepository.instance();
+  TweetGatewayRepository repository = TweetGateway.getRepository();
+  IdGenerator idGenerator = new IdGenerator();
 
   @Context
   private UriInfo uriInfo;
@@ -44,7 +45,7 @@ public class GatewaysResourceHttpController {
       if (sessionVisitor.isAuthenticatedUser()) {
         if (url != null && !url.isEmpty() && suffix != null && !suffix.isEmpty()) {
           final UserId currentUser = sessionVisitor.loadCurrentUser();
-          createNewGateway(currentUser, url, suffix);
+          createNewGateway(currentUser, suffix);
         }
       }
     }
@@ -52,9 +53,9 @@ public class GatewaysResourceHttpController {
     return Response.seeOther(new URI("/index.html")).build();
   }
 
-  private void createNewGateway(UserId currentUser, String url, String hashtags) {
-    GatewayInfo gatewayInfo = new GatewayInfo(new GatewayId(System.currentTimeMillis()));
-    gatewayInfo.setSuffix(hashtags);
+  private void createNewGateway(UserId currentUser, String suffix) {
+    GatewayInfo gatewayInfo = new GatewayInfo(idGenerator.nextId());
+    gatewayInfo.setSuffix(suffix);
     gatewayInfo.setOwner(currentUser);
     repository.save(gatewayInfo);
   }

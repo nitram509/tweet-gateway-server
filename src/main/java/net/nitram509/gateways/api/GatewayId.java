@@ -1,14 +1,16 @@
 package net.nitram509.gateways.api;
 
-public class GatewayId {
+import java.io.Serializable;
 
-  private final long id;
+public class GatewayId implements Serializable {
 
-  public GatewayId(long id) {
+  private final String id;
+
+  public GatewayId(String id) {
     this.id = id;
   }
 
-  public long getId() {
+  public String getId() {
     return id;
   }
 
@@ -19,13 +21,18 @@ public class GatewayId {
 
     GatewayId gatewayId = (GatewayId) o;
 
-    if (id != gatewayId.id) return false;
+    if (!id.equals(gatewayId.id)) return false;
 
     return true;
   }
 
   @Override
   public int hashCode() {
-    return (int) (id ^ (id >>> 32));
+    return id.hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return "GatewayId=" + id;
   }
 }
