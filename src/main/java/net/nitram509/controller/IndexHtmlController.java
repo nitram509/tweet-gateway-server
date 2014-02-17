@@ -12,17 +12,22 @@ import net.nitram509.gateways.api.UserId;
 import net.nitram509.gateways.api.UserProfile;
 import net.nitram509.gateways.repository.TweetGatewayRepository;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import static javax.ws.rs.core.MediaType.TEXT_HTML;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 
-@Path("/")
+@Path("/index.html")
 public class IndexHtmlController {
 
   private final Mustache mustache;
@@ -35,26 +40,30 @@ public class IndexHtmlController {
 
   @GET
   @Produces({TEXT_HTML, TEXT_PLAIN})
-  @Path("index.html")
-  public String getIndexHtmxl() throws IOException {
-    StringWriter html = new StringWriter();
+  public Response getIndexHtml(@Context HttpServletRequest request) throws IOException, URISyntaxException {
 
-    UserProfile userMock = createUserMock();
-    List<GatewayInfo> gateways = repository.findGateway(userMock.getId());
+    final SessionVisitor sessionVisitor = new SessionVisitor(request.getSession(false));
+    if (!sessionVisitor.isAuthenticatedUser()) {
+      return Response.temporaryRedirect(new URI("/signin.html")).build();
+    }
 
-    IndexHtmlContext model = new IndexHtmlContext(userMock, gateways);
-    mustache.execute(html, model).flush();
-    return html.toString();
+    IndexHtmlContext model = createModel(sessionVisitor);
+    String pageContent = renderTemplate(model);
+
+    return Response.ok(pageContent).build();
   }
 
-  private UserProfile createUserMock() throws IOException {
-    UserProfile userProfile = new UserProfile(new UserId(1));
-    userProfile.setScreenName("screenName");
-    userProfile.setUrl("https://twitter.com/nitram509");
-    userProfile.setName("name");
-    userProfile.setProfileImageUrl("http://pbs.twimg.com/profile_images/2852698200/ef5b9daaf433fcde804d5846d3c1f6b6_bigger.png");
-    userProfile.setProfileImageUrlHttps("https://pbs.twimg.com/profile_images/2852698200/ef5b9daaf433fcde804d5846d3c1f6b6_bigger.png");
-    return userProfile;
+  private IndexHtmlContext createModel(SessionVisitor sessionVisitor) {
+    final UserId userId = sessionVisitor.loadCurrentUser();
+    final UserProfile userProfile = repository.getUser(userId);
+    final List<GatewayInfo> gateways = repository.findGateway(userId);
+    return new IndexHtmlContext(userProfile, gateways);
+  }
+
+  private String renderTemplate(IndexHtmlContext model) throws IOException {
+    StringWriter html = new StringWriter();
+    mustache.execute(html, model).flush();
+    return html.toString();
   }
 
   private static class IndexHtmlContext {

@@ -33,8 +33,13 @@ public class TweetGatewayRepository {
     gatewayInfos.add(gatewayInfo);
   }
 
+  @Deprecated
   public UserProfile findBy() {
     return this.profiles.get(0);
+  }
+
+  public UserProfile getUser(UserId userId) {
+    return null;
   }
 
   public List<GatewayInfo> findGateway(UserId owner) {
@@ -46,5 +51,4 @@ public class TweetGatewayRepository {
     }
     return result;
   }
-
 }

@@ -32,7 +32,7 @@ public class SignInHttpController {
     String callbackURL = computeCallbackUrl(request);
 
     RequestToken requestToken = twitter.getOAuthRequestToken(callbackURL);
-    new SessionVisitor(request.getSession()).saveRequestToken(requestToken.getToken());
+    new SessionVisitor(request.getSession(true)).saveRequestToken(requestToken.getToken());
 
     String authenticationURL = requestToken.getAuthenticationURL();
     return Response.seeOther(new URI(authenticationURL)).build();

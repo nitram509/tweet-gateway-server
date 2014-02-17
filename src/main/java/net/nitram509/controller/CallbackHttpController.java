@@ -39,7 +39,7 @@ public class CallbackHttpController {
                                     @QueryParam(value = "oauth_verifier") String oauth_verifier,
                                     @Context HttpServletRequest request) throws TwitterException, IOException, URISyntaxException {
 
-    SessionVisitor sessionVisitor = new SessionVisitor(request.getSession());
+    SessionVisitor sessionVisitor = new SessionVisitor(request.getSession(true));
     if (sessionVisitor.hasRequestToken()) {
       Twitter twitter = new TwitterFactory().getInstance();
       RequestToken requestToken = new RequestToken(sessionVisitor.loadRequestToken(), "");
@@ -65,7 +65,7 @@ public class CallbackHttpController {
     userProfile.setProfileImageUrlHttps(twitterUser.getProfileImageURLHttps());
     userProfile.setProfileImageUrl(twitterUser.getProfileImageURL());
     userProfile.setUrl(twitterUser.getURL());
-    return null;
+    return userProfile;
   }
 
 }

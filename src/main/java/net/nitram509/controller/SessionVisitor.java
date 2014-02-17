@@ -18,6 +18,7 @@ public class SessionVisitor {
   }
 
   public boolean hasRequestToken() {
+    if (session == null) return false;
     String token = (String) session.getAttribute(REQUEST_TOKEN);
     return token != null && !token.isEmpty();
   }
@@ -35,6 +36,7 @@ public class SessionVisitor {
   }
 
   public boolean isAuthenticatedUser() {
+    if (session == null) return false;
     final String accessToken = (String) session.getAttribute(ACCESS_TOKEN);
     final String accessTokenSecret = (String) session.getAttribute(ACCESS_TOKEN_SECRET);
     return accessToken != null && !accessToken.isEmpty() && accessTokenSecret != null && !accessTokenSecret.isEmpty() && loadCurrentUser() != null;
