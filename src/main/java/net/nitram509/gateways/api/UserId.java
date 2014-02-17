@@ -30,4 +30,9 @@ public class UserId implements Serializable {
   public int hashCode() {
     return (int) (id ^ (id >>> 32));
   }
+
+  @Override
+  public String toString() {
+    return "UserId=" + id;
+  }
 }

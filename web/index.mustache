@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Tweet Gateway Server</title>
+  <title>Tweet Gateway Server - {{userProfile.name}}</title>
 
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/tweet-gateway-server.css" rel="stylesheet">
@@ -16,27 +16,25 @@
 
 <body>
 
-<h1 class="page-header">Tweet Gateway Server</h1>
-
 <div class="container-fluid">
 
   <div class="row bg-primary">
     <div class="col-md-1">
-      <a href="{{userProfile.url}}" target="_blank"><img src="{{userProfile.profileImageUrlHttps}}" alt="{{userProfile.name}}"
+      <a href="{{userProfile.url}}" target="_blank"><img class="img-rounded img-profile" src="{{userProfile.profileImageUrlHttps}}" alt="{{userProfile.name}}"
                                                          title="{{userProfile.name}}"></a>
     </div>
-    <div class="col-md-2">
-      {{userProfile.name}} ({{userProfile.screenName}})
+    <div class="col-md-10">
+      <h2><strong>Active Tweet Gateways</strong></h2>
+      {{userProfile.name}} (<a href="https://twitter.com/{{userProfile.screenName}}" target="_blank" class="text-info" style="color: white">@{{userProfile.screenName}}</a>)
     </div>
   </div>
-
-  <h3>Your active tweet gateways</h3>
 
   <div class="row">
     <div class="col-md-7"><strong>URL</strong></div>
     <div class="col-md-4"><strong>Hashtags</strong></div>
     <div class="col-xs-1"><strong>Activity</strong></div>
   </div>
+
 
   {{#gatewayInfos}}
   <div class="row">

@@ -6,6 +6,7 @@ import net.nitram509.gateways.api.UserProfile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class TweetGatewayRepository {
 
@@ -33,13 +34,13 @@ public class TweetGatewayRepository {
     gatewayInfos.add(gatewayInfo);
   }
 
-  @Deprecated
-  public UserProfile findBy() {
-    return this.profiles.get(0);
-  }
-
   public UserProfile getUser(UserId userId) {
-    return null;
+    for (UserProfile profile : profiles) {
+      if (profile.getId().equals(userId)) {
+        return profile;
+      }
+    }
+    throw new NoSuchElementException("UserProfile doesn't exists for " + userId);
   }
 
   public List<GatewayInfo> findGateway(UserId owner) {
