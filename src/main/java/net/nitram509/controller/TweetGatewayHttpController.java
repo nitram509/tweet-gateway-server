@@ -4,8 +4,8 @@
  */
 package net.nitram509.controller;
 
-import net.nitram509.logger.ConsoleLogger;
 import net.nitram509.gateways.api.TextMessage;
+import net.nitram509.logger.ConsoleLogger;
 import net.nitram509.twitter.TwitterService;
 import twitter4j.TwitterException;
 

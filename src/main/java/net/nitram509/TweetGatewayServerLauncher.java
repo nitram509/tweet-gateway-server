@@ -68,8 +68,8 @@ public class TweetGatewayServerLauncher {
     EnvironmentConfig config = new EnvironmentConfig();
     ConsoleLogger logger = new ConsoleLogger();
     final URI uri = config.getConnectionUri();
-    logger.info("DATABASE_URL >>> " + uri.getHost() + (uri.getPort() > 0 ? ":" + uri.getPort() : "") + uri.getPath());
+    logger.info("DATABASE_URL                >>> " + uri.getHost() + (uri.getPort() > 0 ? ":" + uri.getPort() : "") + uri.getPath());
     logger.info("twitter4j.oauth.consumerKey >>> " + config.consumerKey());
-    logger.info("defaultHashTag >>> " + config.defaultHashTag());
+    logger.info("reCaptcha.public.key        >>> " + config.reCaptchaPublicKey());
   }
 }
