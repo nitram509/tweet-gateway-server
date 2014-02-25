@@ -8,6 +8,7 @@ import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 import net.nitram509.controller.SessionVisitor;
+import net.nitram509.gateways.GatewayUrlBuilder;
 import net.nitram509.gateways.api.Gateway;
 import net.nitram509.gateways.api.UserId;
 import net.nitram509.gateways.api.UserProfile;
@@ -31,6 +32,7 @@ import java.util.List;
 
 import static javax.ws.rs.core.MediaType.TEXT_HTML;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
+import static net.nitram509.gateways.GatewayUrlBuilder.createUrl;
 
 @Path("/manageGateways.html")
 public class ManageGatewaysHtmlController {
@@ -77,8 +79,7 @@ public class ManageGatewaysHtmlController {
     ArrayList<GatewayInfo> gatewayInfos = new ArrayList<>();
     for (Gateway gateway : gateways) {
       final GatewayInfo gwi = new GatewayInfo(gateway);
-      final String gwUrl = uriInfo.getBaseUri().toString() + gateway.getId().getId();
-      gwi.setUrl(gwUrl);
+      gwi.setUrl(createUrl(uriInfo.getBaseUri(), gateway.getId()));
       gatewayInfos.add(gwi);
     }
     return gatewayInfos;
