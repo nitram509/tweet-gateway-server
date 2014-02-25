@@ -23,6 +23,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED;
+import static net.nitram509.page.managegateways.ManageGatewaysHtmlController.MANAGE_GATEWAYS_URL;
 
 @Path("/gateways")
 public class GatewaysResourceHttpController {
@@ -49,7 +50,7 @@ public class GatewaysResourceHttpController {
       }
     }
 
-    return Response.seeOther(new URI("/index.html")).build();
+    return Response.seeOther(new URI(MANAGE_GATEWAYS_URL)).build();
   }
 
   private void createNewGateway(UserId currentUser, String suffix) {

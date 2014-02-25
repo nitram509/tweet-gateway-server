@@ -1,4 +1,4 @@
-package net.nitram509.page.index;
+package net.nitram509.page.managegateways;
 
 import net.nitram509.gateways.api.Gateway;
 import net.nitram509.gateways.api.GatewayId;

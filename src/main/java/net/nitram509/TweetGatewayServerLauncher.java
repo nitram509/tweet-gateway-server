@@ -46,7 +46,7 @@ public class TweetGatewayServerLauncher {
     FilterHolder filterHolder = new FilterHolder();
     filterHolder.setName("Jersey REST");
     filterHolder.setClassName("com.sun.jersey.spi.container.servlet.ServletContainer");
-    filterHolder.getInitParameters().put("com.sun.jersey.config.property.packages", "net.nitram509.controller net.nitram509.gateways.controller net.nitram509.page.index");
+    filterHolder.getInitParameters().put("com.sun.jersey.config.property.packages", "net.nitram509.controller net.nitram509.gateways.controller net.nitram509.page.managegateways");
     filterHolder.getInitParameters().put("com.sun.jersey.config.feature.FilterForwardOn404", "true"); // allow static resources
     return filterHolder;
   }

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.nitram509.page.index;
+package net.nitram509.page.managegateways;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
@@ -32,8 +32,10 @@ import java.util.List;
 import static javax.ws.rs.core.MediaType.TEXT_HTML;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 
-@Path("/index.html")
-public class IndexHtmlController {
+@Path("/manageGateways.html")
+public class ManageGatewaysHtmlController {
+
+  public static String MANAGE_GATEWAYS_URL = "/manageGateways.html";
 
   private final Mustache mustache;
   private final TweetGatewayRepository repository = TweetGateway.getRepository();
@@ -42,9 +44,9 @@ public class IndexHtmlController {
   @Context
   UriInfo uriInfo;
 
-  public IndexHtmlController() {
+  public ManageGatewaysHtmlController() {
     MustacheFactory mf = new DefaultMustacheFactory();
-    mustache = mf.compile("web/index.mustache");
+    mustache = mf.compile("web/manageGateways.mustache");
   }
 
   @GET
@@ -56,19 +58,19 @@ public class IndexHtmlController {
       return Response.temporaryRedirect(new URI("/signin.html")).build();
     }
 
-    IndexHtmlContext model = createModel(sessionVisitor);
+    ManageGatewaysHtmlContext model = createModel(sessionVisitor);
     String pageContent = renderTemplate(model);
 
     return Response.ok(pageContent).build();
   }
 
-  private IndexHtmlContext createModel(SessionVisitor sessionVisitor) {
+  private ManageGatewaysHtmlContext createModel(SessionVisitor sessionVisitor) {
     UserId userId = sessionVisitor.loadCurrentUser();
     UserProfile userProfile = repository.getUser(userId);
     List<Gateway> gateways = repository.findGateways(userId);
     List<GatewayInfo> gatewayInfos = enrichGateways(gateways);
     String recaptchaHtml = reCaptchaService.createCaptchaHtml();
-    return new IndexHtmlContext(userProfile, gatewayInfos, recaptchaHtml);
+    return new ManageGatewaysHtmlContext(userProfile, gatewayInfos, recaptchaHtml);
   }
 
   private List<GatewayInfo> enrichGateways(List<Gateway> gateways) {
@@ -82,7 +84,7 @@ public class IndexHtmlController {
     return gatewayInfos;
   }
 
-  private String renderTemplate(IndexHtmlContext model) throws IOException {
+  private String renderTemplate(ManageGatewaysHtmlContext model) throws IOException {
     StringWriter html = new StringWriter();
     mustache.execute(html, model).flush();
     return html.toString();

@@ -1,16 +1,16 @@
-package net.nitram509.page.index;
+package net.nitram509.page.managegateways;
 
 import net.nitram509.gateways.api.UserProfile;
 
 import java.util.List;
 
-public class IndexHtmlContext {
+public class ManageGatewaysHtmlContext {
 
   private UserProfile userProfile;
   private List<GatewayInfo> gatewayInfos;
   private String recaptchaHtml;
 
-  IndexHtmlContext(UserProfile userProfile, List<GatewayInfo> gatewayInfos, String recaptchaHtml) {
+  ManageGatewaysHtmlContext(UserProfile userProfile, List<GatewayInfo> gatewayInfos, String recaptchaHtml) {
     this.userProfile = userProfile;
     this.gatewayInfos = gatewayInfos;
     this.recaptchaHtml = recaptchaHtml;
