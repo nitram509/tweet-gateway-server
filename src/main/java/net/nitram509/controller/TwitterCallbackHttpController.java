@@ -2,10 +2,8 @@ package net.nitram509.controller;
 
 import net.nitram509.gateways.api.UserId;
 import net.nitram509.gateways.api.UserProfile;
-import net.nitram509.gateways.controller.GatewaysResourceHttpController;
 import net.nitram509.gateways.repository.TweetGateway;
 import net.nitram509.gateways.repository.TweetGatewayRepository;
-import net.nitram509.page.managegateways.ManageGatewaysHtmlController;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -26,11 +24,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
-import static net.nitram509.controller.SignInHttpController.DO_TWITTER_CALLBACK;
+import static net.nitram509.controller.TwitterSignInHttpController.DO_TWITTER_CALLBACK;
 import static net.nitram509.page.managegateways.ManageGatewaysHtmlController.MANAGE_GATEWAYS_URL;
 
 @Path(DO_TWITTER_CALLBACK)
-public class CallbackHttpController {
+public class TwitterCallbackHttpController {
 
   private TweetGatewayRepository repository = TweetGateway.getRepository();
 

@@ -1,6 +1,7 @@
 package net.nitram509.gateways.repository;
 
 import net.nitram509.gateways.api.Gateway;
+import net.nitram509.gateways.api.GatewayId;
 import net.nitram509.gateways.api.UserId;
 import net.nitram509.gateways.api.UserProfile;
 
@@ -43,6 +44,18 @@ public class TweetGatewayRepositoryInMemory implements TweetGatewayRepository {
     for (Gateway gateway : gateways) {
       if (gateway.getOwner().equals(owner)) {
         result.add(gateway);
+      }
+    }
+    return result;
+  }
+
+  @Override
+  public Gateway getGateway(GatewayId gatewayId) {
+    Gateway result = null;
+    for (Gateway gateway : gateways) {
+      if (gateway.getId().equals(gatewayId)) {
+        result = gateway;
+        break;
       }
     }
     return result;

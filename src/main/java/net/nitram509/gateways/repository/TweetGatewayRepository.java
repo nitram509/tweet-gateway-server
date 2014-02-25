@@ -1,6 +1,7 @@
 package net.nitram509.gateways.repository;
 
 import net.nitram509.gateways.api.Gateway;
+import net.nitram509.gateways.api.GatewayId;
 import net.nitram509.gateways.api.UserId;
 import net.nitram509.gateways.api.UserProfile;
 
@@ -15,4 +16,6 @@ public interface TweetGatewayRepository {
   UserProfile getUser(UserId userId);
 
   List<Gateway> findGateways(UserId owner);
+
+  Gateway getGateway(GatewayId gatewayId);
 }

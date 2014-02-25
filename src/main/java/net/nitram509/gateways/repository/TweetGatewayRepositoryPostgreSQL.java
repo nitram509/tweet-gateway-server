@@ -166,4 +166,36 @@ public class TweetGatewayRepositoryPostgreSQL implements TweetGatewayRepository 
     }
     return result;
   }
+
+  @Override
+  public Gateway getGateway(GatewayId gatewayId) {
+    Gateway result = null;
+    String query = "SELECT" +
+        " id, owner, activity, suffix" +
+        " FROM gateway " +
+        " WHERE id=?";
+    PreparedStatement statement = null;
+    try {
+      statement = connection.prepareStatement(query);
+      statement.setString(1, gatewayId.getId());
+      final ResultSet resultSet = statement.executeQuery();
+      while (resultSet.next()) {
+        result = new Gateway(new GatewayId(resultSet.getString("id")));
+        result.setOwner(new UserId(resultSet.getLong("owner")));
+        result.setActivity(resultSet.getInt("activity"));
+        result.setSuffix(resultSet.getString("suffix"));
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    } finally {
+      if (statement != null) {
+        try {
+          statement.close();
+        } catch (SQLException e) {
+          /* ignore */
+        }
+      }
+    }
+    return result;
+  }
 }

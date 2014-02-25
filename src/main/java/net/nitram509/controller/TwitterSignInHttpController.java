@@ -18,7 +18,7 @@ import java.net.URISyntaxException;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 
 @Path("/doTwitterSignIn")
-public class SignInHttpController {
+public class TwitterSignInHttpController {
 
   public static final String DO_TWITTER_SIGN_IN = "/doTwitterSignIn";
   public static final String DO_TWITTER_CALLBACK = "/doTwitterCallback";
