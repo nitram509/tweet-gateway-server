@@ -15,9 +15,10 @@ CREATE TABLE userprofile
     screenname VARCHAR(64) NOT NULL,
     profileimageurl VARCHAR(200) NOT NULL,
     profileimageurlhttps VARCHAR(200) NOT NULL,
-    url VARCHAR(200)
+    url VARCHAR(200),
+    accesstoken VARCHAR(64) NOT NULL,
+    accesstokensecret VARCHAR(64) NOT NULL
 );
-
-CREATE UNIQUE INDEX gateway_unique_id ON gateway ( id );
-CREATE INDEX gateway_owner ON gateway ( owner );
-CREATE UNIQUE INDEX userprofile_unique_id ON userprofile ( id );
+CREATE UNIQUE INDEX gw_unique_id ON gateway ( id );
+CREATE INDEX gateway_owner_index ON gateway ( owner );
+CREATE UNIQUE INDEX unique_id ON userprofile ( id );

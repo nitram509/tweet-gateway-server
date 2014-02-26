@@ -1,59 +1,27 @@
 package net.nitram509.twitter;
 
 import net.nitram509.config.EnvironmentConfig;
+import net.nitram509.gateways.api.UserId;
+import net.nitram509.gateways.api.UserProfile;
+import net.nitram509.gateways.repository.TweetGateway;
+import net.nitram509.gateways.repository.TweetGatewayRepository;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
-import twitter4j.auth.RequestToken;
 
 public class TwitterService {
 
-  private TwitterInMemoryStorage storage = new TwitterInMemoryStorage();
+  private TwitterClientToolbox twitterClientToolbox = new TwitterClientToolbox();
   private EnvironmentConfig config = new EnvironmentConfig();
   private TwitterTextHelper twitterTextHelper = new TwitterTextHelper(config.defaultHashTag());
+  private TweetGatewayRepository gatewayRepository = TweetGateway.getRepository();
 
-  public TwitterService() {
-    if (config.consumerKey() == null) {
-      throw new IllegalStateException("You have to provide 'consumerKey' as ENV VAR!");
-    }
-    if (config.consumerSecret() == null) {
-      throw new IllegalStateException("You have to provide 'consumerSecret' as ENV VAR!");
-    }
-  }
-
-  public String signinAndGetAuthenticationUrl(String requestUrl) throws TwitterException {
-    Twitter twitter = getTwitter();
-
-    StringBuilder callbackUrl = new StringBuilder(requestUrl);
-    int index = callbackUrl.lastIndexOf("/");
-    callbackUrl.replace(index, callbackUrl.length(), "").append("/callback");
-
-    RequestToken requestToken = twitter.getOAuthRequestToken(callbackUrl.toString());
-    storage.setRequestToken(requestToken);
-    return requestToken.getAuthenticationURL();
-  }
-
-  public boolean isSignedIn() {
-    return storage.getAccessToken() != null;
-  }
-
-  public void doCallback(String oauth_verifier) throws TwitterException {
-    Twitter twitter = getTwitter();
-    RequestToken requestToken = storage.getRequestToken();
-    AccessToken oAuthAccessToken = twitter.getOAuthAccessToken(requestToken, oauth_verifier);
-    storage.setAccessToken(oAuthAccessToken);
-    storage.setRequestToken(null);
-  }
-
-  public void postMessage(String message) throws TwitterException {
-    Twitter twitter = getTwitter();
-    if (storage.getAccessToken() != null) {
-      twitter.setOAuthAccessToken(storage.getAccessToken());
-    }
+  public void postMessage(UserId userId, String message) throws TwitterException {
+    AccessToken accessToken = createAccessTokenFor(userId);
+    Twitter twitter = twitterClientToolbox.getTwitterFor(accessToken);
     message = twitterTextHelper.appendDefaultHashtag(message);
-    twitter.updateStatus(new StatusUpdate(createMessage(formatMessage(message))));
+    twitter.updateStatus(new StatusUpdate(formatMessage(message)));
   }
 
   private String formatMessage(String message) {
@@ -61,16 +29,9 @@ public class TwitterService {
     return message;
   }
 
-  private String createMessage(String message) {
-    return message;
-  }
-
-  private Twitter getTwitter() {
-    Twitter twitter = TwitterFactory.getSingleton();
-    if (!twitter.getAuthorization().isEnabled()) {
-      twitter.setOAuthConsumer(config.consumerKey(), config.consumerSecret());
-    }
-    return twitter;
+  private AccessToken createAccessTokenFor(UserId userId) {
+    final UserProfile user = gatewayRepository.getUser(userId);
+    return new AccessToken(user.getAccessToken(), user.getAccessTokenSecret());
   }
 
 }

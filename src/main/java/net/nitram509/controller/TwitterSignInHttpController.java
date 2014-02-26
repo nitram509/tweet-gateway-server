@@ -1,8 +1,8 @@
 package net.nitram509.controller;
 
+import net.nitram509.twitter.TwitterClientToolbox;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 import twitter4j.auth.RequestToken;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,19 +23,23 @@ public class TwitterSignInHttpController {
   public static final String DO_TWITTER_SIGN_IN = "/doTwitterSignIn";
   public static final String DO_TWITTER_CALLBACK = "/doTwitterCallback";
 
+  private TwitterClientToolbox twitterClientToolbox = new TwitterClientToolbox();
+
   @POST
   @Produces({TEXT_PLAIN})
   public Response doTwitterSignIn(@Context HttpServletRequest request) throws TwitterException, IOException, URISyntaxException {
 
-    Twitter twitter = new TwitterFactory().getInstance();
-
-    String callbackURL = computeCallbackUrl(request);
-
-    RequestToken requestToken = twitter.getOAuthRequestToken(callbackURL);
+    RequestToken requestToken = retrieveTwitterRequestToken(request);
     new SessionVisitor(request.getSession(true)).saveRequestToken(requestToken.getToken());
 
     String authenticationURL = requestToken.getAuthenticationURL();
     return Response.seeOther(new URI(authenticationURL)).build();
+  }
+
+  public RequestToken retrieveTwitterRequestToken(HttpServletRequest request) throws TwitterException {
+    Twitter twitter = twitterClientToolbox.getTwitterAsTweetGatewayApp();
+    String callbackURL = computeCallbackUrl(request);
+    return twitter.getOAuthRequestToken(callbackURL);
   }
 
   private String computeCallbackUrl(HttpServletRequest request) {

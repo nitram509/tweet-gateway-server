@@ -25,8 +25,8 @@ public class TweetGatewayRepositoryPostgreSQL implements TweetGatewayRepository 
   public void save(UserProfile userProfile) {
     delete(userProfile);
     String query = "INSERT INTO userprofile " +
-        "        (id, name, screenname, profileimageurl, profileimageurlhttps, url) " +
-        " VALUES (? , ?   , ?         , ?              , ?                   , ?)";
+        "        (id, name, screenname, profileimageurl, profileimageurlhttps, url, accessToken, accessTokenSecret) " +
+        " VALUES (? , ?   , ?         , ?              , ?                   , ?  , ?          , ?)";
     PreparedStatement statement = null;
     try {
       statement = connection.prepareStatement(query);
@@ -37,6 +37,8 @@ public class TweetGatewayRepositoryPostgreSQL implements TweetGatewayRepository 
       statement.setString(idx++, userProfile.getProfileImageUrl());
       statement.setString(idx++, userProfile.getProfileImageUrlHttps());
       statement.setString(idx++, userProfile.getUrl());
+      statement.setString(idx++, userProfile.getAccessToken());
+      statement.setString(idx++, userProfile.getAccessTokenSecret());
       statement.executeUpdate();
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -76,7 +78,7 @@ public class TweetGatewayRepositoryPostgreSQL implements TweetGatewayRepository 
   @Override
   public UserProfile getUser(UserId userId) {
     String query = "SELECT" +
-        " id, name, screenname, profileimageurl, profileimageurlhttps, url" +
+        " id, name, screenname, profileimageurl, profileimageurlhttps, url, accessToken, accessTokenSecret" +
         " FROM userprofile " +
         " WHERE id=?";
     PreparedStatement statement = null;
@@ -91,6 +93,8 @@ public class TweetGatewayRepositoryPostgreSQL implements TweetGatewayRepository 
         profile.setProfileImageUrl(resultSet.getString("profileimageurl"));
         profile.setProfileImageUrlHttps(resultSet.getString("profileimageurlhttps"));
         profile.setUrl(resultSet.getString("url"));
+        profile.setAccessToken(resultSet.getString("accessToken"));
+        profile.setAccessTokenSecret(resultSet.getString("accessTokenSecret"));
         return profile;
       }
     } catch (SQLException e) {

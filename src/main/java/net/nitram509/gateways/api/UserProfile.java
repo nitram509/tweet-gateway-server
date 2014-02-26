@@ -10,6 +10,8 @@ public class UserProfile implements Serializable{
   private String profileImageUrlHttps;
   private String profileImageUrl;
   private String url;
+  private String accessToken;
+  private String accessTokenSecret;
 
   public UserProfile(UserId userId) {
     this.userId = userId;
@@ -57,5 +59,21 @@ public class UserProfile implements Serializable{
 
   public String getUrl() {
     return url;
+  }
+
+  public void setAccessToken(String accessToken) {
+    this.accessToken = accessToken;
+  }
+
+  public String getAccessToken() {
+    return accessToken;
+  }
+
+  public void setAccessTokenSecret(String accessTokenSecret) {
+    this.accessTokenSecret = accessTokenSecret;
+  }
+
+  public String getAccessTokenSecret() {
+    return accessTokenSecret;
   }
 }
