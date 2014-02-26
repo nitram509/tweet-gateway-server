@@ -16,8 +16,8 @@ CREATE TABLE userprofile
     profileimageurl VARCHAR(200) NOT NULL,
     profileimageurlhttps VARCHAR(200) NOT NULL,
     url VARCHAR(200),
-    accesstoken VARCHAR(64) NOT NULL,
-    accesstokensecret VARCHAR(64) NOT NULL
+    accesstoken VARCHAR(96) NOT NULL,
+    accesstokensecret VARCHAR(96) NOT NULL
 );
 CREATE UNIQUE INDEX gw_unique_id ON gateway ( id );
 CREATE INDEX gateway_owner_index ON gateway ( owner );
