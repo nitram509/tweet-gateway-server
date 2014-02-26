@@ -5,6 +5,8 @@ import java.net.URISyntaxException;
 
 public class EnvironmentConfig implements Mandatory, Optional {
 
+  public static final String DEFAULT_DATABASE_SECRET = "This is the default secret key for Encryption/Decryption sensitive user date in database";
+
   @Override
   public String consumerKey() {
     return System.getenv("twitter4j.oauth.consumerKey");
@@ -59,4 +61,8 @@ public class EnvironmentConfig implements Mandatory, Optional {
     }
   }
 
+  public String getPersonalDatabaseSecret() {
+    String secret = System.getenv("personal.database.secret");
+    return secret != null ? secret : DEFAULT_DATABASE_SECRET;
+  }
 }

@@ -1,5 +1,6 @@
 package net.nitram509.gateways.repository;
 
+import net.nitram509.config.EnvironmentConfig;
 import net.nitram509.gateways.api.Gateway;
 import net.nitram509.gateways.api.GatewayId;
 import net.nitram509.gateways.api.UserId;
@@ -16,6 +17,7 @@ import java.util.NoSuchElementException;
 public class TweetGatewayRepositoryPostgreSQL implements TweetGatewayRepository {
 
   private final Connection connection;
+  private final CryptoHelper cryptoHelper = new CryptoHelper(new EnvironmentConfig().getPersonalDatabaseSecret());
 
   TweetGatewayRepositoryPostgreSQL(Connection connection) {
     this.connection = connection;
@@ -37,8 +39,8 @@ public class TweetGatewayRepositoryPostgreSQL implements TweetGatewayRepository 
       statement.setString(idx++, userProfile.getProfileImageUrl());
       statement.setString(idx++, userProfile.getProfileImageUrlHttps());
       statement.setString(idx++, userProfile.getUrl());
-      statement.setString(idx++, userProfile.getAccessToken());
-      statement.setString(idx++, userProfile.getAccessTokenSecret());
+      statement.setString(idx++, cryptoHelper.encrypt(userProfile.getAccessToken()));
+      statement.setString(idx++, cryptoHelper.encrypt(userProfile.getAccessTokenSecret()));
       statement.executeUpdate();
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -93,8 +95,8 @@ public class TweetGatewayRepositoryPostgreSQL implements TweetGatewayRepository 
         profile.setProfileImageUrl(resultSet.getString("profileimageurl"));
         profile.setProfileImageUrlHttps(resultSet.getString("profileimageurlhttps"));
         profile.setUrl(resultSet.getString("url"));
-        profile.setAccessToken(resultSet.getString("accessToken"));
-        profile.setAccessTokenSecret(resultSet.getString("accessTokenSecret"));
+        profile.setAccessToken(cryptoHelper.decrypt(resultSet.getString("accessToken")));
+        profile.setAccessTokenSecret(cryptoHelper.decrypt(resultSet.getString("accessTokenSecret")));
         return profile;
       }
     } catch (SQLException e) {
