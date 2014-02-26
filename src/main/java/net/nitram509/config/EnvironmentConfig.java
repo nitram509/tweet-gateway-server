@@ -61,6 +61,7 @@ public class EnvironmentConfig implements Mandatory, Optional {
     }
   }
 
+  @Override
   public String getPersonalDatabaseSecret() {
     String secret = System.getenv("personal.database.secret");
     return secret != null ? secret : DEFAULT_DATABASE_SECRET;

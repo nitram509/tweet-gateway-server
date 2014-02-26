@@ -57,6 +57,7 @@ public class TweetGatewayHttpController {
     if (!postMessage(gateway.getOwner(), textMessage)) {
       return Response.status(BAD_REQUEST).entity("ERROR: Text is not allowed to be empty").build();
     }
+    gatewayRepository.incrementActivity(gateway.getId());
     return Response.ok("OK").build();
   }
 

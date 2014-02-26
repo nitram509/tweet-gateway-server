@@ -15,6 +15,8 @@ public interface TweetGatewayRepository {
 
   UserProfile getUser(UserId userId);
 
+  void incrementActivity(GatewayId gatewayId);
+
   List<Gateway> findGateways(UserId owner);
 
   Gateway getGateway(GatewayId gatewayId);

@@ -11,4 +11,5 @@ public interface Optional {
 
   boolean hasCaptchaKeys();
 
+  String getPersonalDatabaseSecret();
 }

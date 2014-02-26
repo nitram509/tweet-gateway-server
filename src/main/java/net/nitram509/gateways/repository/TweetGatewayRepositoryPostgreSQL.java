@@ -141,6 +141,30 @@ public class TweetGatewayRepositoryPostgreSQL implements TweetGatewayRepository 
   }
 
   @Override
+  public void incrementActivity(GatewayId gatewayId) {
+    String query = "UPDATE gateway " +
+        " SET activity = activity + 1  " +
+        " where id = ?";
+    PreparedStatement statement = null;
+    try {
+      statement = connection.prepareStatement(query);
+      statement.setString(1, gatewayId.getId());
+      statement.executeUpdate();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    } finally {
+      if (statement != null) {
+        try {
+          statement.close();
+        } catch (SQLException e) {
+          /* ignore */
+        }
+      }
+    }
+  }
+
+
+  @Override
   public List<Gateway> findGateways(UserId owner) {
     final ArrayList<Gateway> result = new ArrayList<>();
     String query = "SELECT" +

@@ -60,4 +60,12 @@ public class TweetGatewayRepositoryInMemory implements TweetGatewayRepository {
     }
     return result;
   }
+
+  @Override
+  public void incrementActivity(GatewayId gatewayId) {
+    Gateway gateway = getGateway(gatewayId);
+    int activity = gateway.getActivity();
+    gateway.setActivity(activity + 1);
+    save(gateway);
+  }
 }
