@@ -24,6 +24,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
 import static net.nitram509.page.managegateways.ManageGatewaysHtmlController.MANAGE_GATEWAYS_URL;
+import static net.nitram509.twitter.TwitterTextHelper.makeSafeSuffix;
 
 @Path("/gateways")
 public class GatewaysResourceHttpController {
@@ -106,13 +107,7 @@ public class GatewaysResourceHttpController {
   }
 
   private void updateGateway(GatewayId gatewayId, String suffix) {
-    String safeSuffix;
-    if (suffix == null) {
-      safeSuffix = "";
-    } else {
-      int maxLength = Math.min(MAX_SUFFIX_LENGTH, suffix.length());
-      safeSuffix = suffix.substring(0, maxLength);
-    }
+    String safeSuffix = makeSafeSuffix(suffix);
     gatewayRepository.update(gatewayId, safeSuffix);
   }
 }
