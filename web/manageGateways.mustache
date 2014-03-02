@@ -34,9 +34,9 @@
   <br>
 
   <div class="row">
-    <div class="col-md-offset-1 col-md-6"><h4>Secret URL</h4></div>
-    <div class="col-md-3"><h4>Suffix</h4></div>
-    <div class="col-xs-1"><h4>Activity</h4></div>
+    <div class="col-md-offset-1 col-md-6 panel panel-heading"><h4>Secret URL</h4></div>
+    <div class="col-md-3 panel panel-heading"><h4>Suffix</h4></div>
+    <div class="col-xs-1 panel panel-heading"><h4>Activity</h4></div>
   </div>
 
   {{#gatewayInfos}}
@@ -62,9 +62,9 @@
         </div>
         <div class="panel-body">
           <form class="form-inline" role="form" method="post" action="/gateways" name="createGateway">
-            <input class="form-control" type="text" name="suffix" maxlength="140" style="min-width: 245px" placeholder="Suffix">
-            <button id="btnCreate" class="form-control btn btn-primary">Create</button>
+            <input class="form-control" type="text" name="suffix" maxlength="140" style="min-width: 318px" placeholder="Suffix">
             {{{recaptchaHtml}}}
+            <button id="btnCreate" class="form-control btn btn-primary">Create</button>
           </form>
         </div>
       </div>
