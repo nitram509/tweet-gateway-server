@@ -6,6 +6,7 @@ import net.nitram509.gateways.api.UserId;
 import net.nitram509.gateways.api.UserProfile;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -67,5 +68,16 @@ public class TweetGatewayRepositoryInMemory implements TweetGatewayRepository {
     int activity = gateway.getActivity();
     gateway.setActivity(activity + 1);
     save(gateway);
+  }
+
+  @Override
+  public void remove(GatewayId gatewayId) {
+    Iterator<Gateway> iterator = gateways.iterator();
+    while (iterator.hasNext()) {
+      if (gatewayId.equals(iterator.next().getId())) {
+        iterator.remove();
+        break;
+      }
+    }
   }
 }

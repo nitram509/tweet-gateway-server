@@ -228,4 +228,26 @@ public class TweetGatewayRepositoryPostgreSQL implements TweetGatewayRepository 
     }
     return result;
   }
+
+  @Override
+  public void remove(GatewayId gatewayId) {
+    String query = "DELETE from gateway " +
+        " where id = ?";
+    PreparedStatement statement = null;
+    try {
+      statement = connection.prepareStatement(query);
+      statement.setString(1, gatewayId.getId());
+      statement.executeUpdate();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    } finally {
+      if (statement != null) {
+        try {
+          statement.close();
+        } catch (SQLException e) {
+          /* ignore */
+        }
+      }
+    }
+  }
 }

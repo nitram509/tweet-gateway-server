@@ -20,4 +20,6 @@ public interface TweetGatewayRepository {
   List<Gateway> findGateways(UserId owner);
 
   Gateway getGateway(GatewayId gatewayId);
+
+  void remove(GatewayId gatewayId);
 }
