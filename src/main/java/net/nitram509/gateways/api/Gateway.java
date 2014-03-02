@@ -1,6 +1,6 @@
 package net.nitram509.gateways.api;
 
-public class Gateway {
+public class Gateway implements Comparable<Gateway> {
 
   private final GatewayId gatewayId;
   private UserId owner;
@@ -39,4 +39,8 @@ public class Gateway {
     this.suffix = suffix;
   }
 
+  @Override
+  public int compareTo(Gateway o) {
+    return this.gatewayId.getId().compareTo(o.gatewayId.getId());
+  }
 }

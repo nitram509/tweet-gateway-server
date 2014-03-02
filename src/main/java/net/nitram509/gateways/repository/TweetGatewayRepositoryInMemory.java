@@ -5,10 +5,7 @@ import net.nitram509.gateways.api.GatewayId;
 import net.nitram509.gateways.api.UserId;
 import net.nitram509.gateways.api.UserProfile;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class TweetGatewayRepositoryInMemory implements TweetGatewayRepository {
 
@@ -30,6 +27,15 @@ public class TweetGatewayRepositoryInMemory implements TweetGatewayRepository {
   }
 
   @Override
+  public void update(GatewayId gatewayId, String suffix) {
+    for (Gateway gateway : gateways) {
+      if (gateway.getId().equals(gatewayId)) {
+        gateway.setSuffix(suffix);
+      }
+    }
+  }
+
+  @Override
   public UserProfile getUser(UserId userId) {
     for (UserProfile profile : profiles) {
       if (profile.getId().equals(userId)) {
@@ -47,6 +53,13 @@ public class TweetGatewayRepositoryInMemory implements TweetGatewayRepository {
         result.add(gateway);
       }
     }
+    // order by GatewayId
+    Collections.sort(result, new Comparator<Gateway>() {
+      @Override
+      public int compare(Gateway o1, Gateway o2) {
+        return o1.compareTo(o2);
+      }
+    });
     return result;
   }
 

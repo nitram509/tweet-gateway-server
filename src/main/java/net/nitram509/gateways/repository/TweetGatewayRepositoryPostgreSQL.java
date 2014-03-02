@@ -141,6 +141,30 @@ public class TweetGatewayRepositoryPostgreSQL implements TweetGatewayRepository 
   }
 
   @Override
+  public void update(GatewayId gatewayId, String suffix) {
+    String query = "UPDATE gateway " +
+        " SET suffix = ?  " +
+        " where id = ?";
+    PreparedStatement statement = null;
+    try {
+      statement = connection.prepareStatement(query);
+      statement.setString(1, suffix);
+      statement.setString(2, gatewayId.getId());
+      statement.executeUpdate();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    } finally {
+      if (statement != null) {
+        try {
+          statement.close();
+        } catch (SQLException e) {
+          /* ignore */
+        }
+      }
+    }
+  }
+
+  @Override
   public void incrementActivity(GatewayId gatewayId) {
     String query = "UPDATE gateway " +
         " SET activity = activity + 1  " +
@@ -170,7 +194,8 @@ public class TweetGatewayRepositoryPostgreSQL implements TweetGatewayRepository 
     String query = "SELECT" +
         " id, owner, activity, suffix" +
         " FROM gateway " +
-        " WHERE owner=?";
+        " WHERE owner=?" +
+        " ORDER BY id asc";
     PreparedStatement statement = null;
     try {
       statement = connection.prepareStatement(query);

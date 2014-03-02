@@ -13,6 +13,8 @@ public interface TweetGatewayRepository {
 
   void save(Gateway gateway);
 
+  void update(GatewayId gatewayId, String suffix);
+
   UserProfile getUser(UserId userId);
 
   void incrementActivity(GatewayId gatewayId);
