@@ -18,12 +18,6 @@ public class EnvironmentConfig implements Mandatory, Optional {
   }
 
   @Override
-  @Deprecated
-  public String defaultHashTag() {
-    return System.getenv("defaultHashTag");
-  }
-
-  @Override
   public String reCaptchaPublicKey() {
     final String key = System.getenv("reCaptcha.public.key");
     return key == null ? "" : key;

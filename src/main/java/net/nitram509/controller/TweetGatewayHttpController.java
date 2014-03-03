@@ -6,8 +6,7 @@ package net.nitram509.controller;
 
 import net.nitram509.gateways.api.Gateway;
 import net.nitram509.gateways.api.GatewayId;
-import net.nitram509.gateways.api.TextMessage;
-import net.nitram509.gateways.api.UserId;
+import net.nitram509.gateways.api.Tweet;
 import net.nitram509.gateways.repository.TweetGateway;
 import net.nitram509.gateways.repository.TweetGatewayRepository;
 import net.nitram509.logger.ConsoleLogger;
@@ -18,9 +17,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
-import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
-import static javax.ws.rs.core.Response.Status.NOT_FOUND;
-import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
+import static javax.ws.rs.core.Response.Status.*;
 import static net.nitram509.gateways.GatewayUrlBuilder.GATEWAY_URL_PREFIX;
 
 @Path(GATEWAY_URL_PREFIX)
@@ -33,12 +30,13 @@ public class TweetGatewayHttpController {
   @GET
   @Produces({TEXT_PLAIN})
   @Path("/{gatewayId}")
-  public Response getSmsGateway(
+  public Response getSmsGateway_GET(
       @PathParam("gatewayId") String gatewayId,
-      @QueryParam("text") String text,
-      @QueryParam("device") String device,
-      @QueryParam("phone") String phone,
-      @QueryParam("smscenter") String smscenter) throws TwitterException {
+      @QueryParam("text") String text) throws TwitterException {
+
+    if (text == null || text.trim().isEmpty()) {
+      return Response.status(BAD_REQUEST).entity("ERROR: Text is not allowed to be empty").build();
+    }
 
     if (gatewayId == null || gatewayId.trim().length() != 16) {
       return Response.status(UNAUTHORIZED).entity("ERROR: Missing GatewayId. Please provide the GatewayId (16 alpha-numeric character).").build();
@@ -49,27 +47,18 @@ public class TweetGatewayHttpController {
       return Response.status(NOT_FOUND).entity("ERROR: Wrong GatewayId. Please provide a valid GatewayId (16 alpha-numeric character).").build();
     }
 
-    TextMessage textMessage = new TextMessage()
-        .setText(text)
-        .setDevice(device)
-        .setPhone(phone)
-        .setSmscenter(smscenter);
-    if (!postMessage(gateway.getOwner(), textMessage)) {
-      return Response.status(BAD_REQUEST).entity("ERROR: Text is not allowed to be empty").build();
-    }
-    gatewayRepository.incrementActivity(gateway.getId());
+    postMessage(gateway, text);
     return Response.ok("OK").build();
   }
 
-  public boolean postMessage(UserId userId, TextMessage textMessage) throws TwitterException {
-    logger.infoAsJson("TweetGateway action", textMessage);
-    String text = textMessage.getText();
-    if (text == null || text.trim().isEmpty()) {
-      return false;
-    }
-    twitterService.postMessage(userId, text);
-    return true;
+  void postMessage(Gateway gateway, String text) throws TwitterException {
+    Tweet tweet = new Tweet()
+        .setText(text)
+        .setSuffix(gateway.getSuffix())
+        .setGatewayId(gateway.getId());
+    logger.infoAsJson("TweetGatewayHttpController postMessage", tweet);
+    twitterService.postMessage(gateway.getOwner(), tweet);
+    gatewayRepository.incrementActivity(gateway.getId());
   }
-
 
 }

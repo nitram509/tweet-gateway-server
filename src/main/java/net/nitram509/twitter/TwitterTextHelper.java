@@ -6,26 +6,16 @@ public class TwitterTextHelper {
 
   public static final String HASHTAG_SEPARATOR = " ";
 
-  private final String defaultHashtag;
-
-  public TwitterTextHelper() {
-    this(null);
-  }
-
-  public TwitterTextHelper(String defaultHashtag) {
-    this.defaultHashtag = defaultHashtag;
-  }
-
-  public String appendDefaultHashtag(String text) {
-    if (this.defaultHashtag == null || this.defaultHashtag.trim().isEmpty()) {
+  public String appendDefaultHashtag(String text, String suffix) {
+    if (suffix == null || suffix.trim().isEmpty()) {
       return text;
     }
     String s = text.toLowerCase();
-    if (s.contains(defaultHashtag.toLowerCase())) {
+    if (s.contains(suffix.toLowerCase())) {
       return text;
     }
-    if ((text.length() + HASHTAG_SEPARATOR.length() + defaultHashtag.length()) < MAX_SUFFIX_LENGTH) {
-      return text + HASHTAG_SEPARATOR + defaultHashtag;
+    if ((text.length() + HASHTAG_SEPARATOR.length() + suffix.length()) < MAX_SUFFIX_LENGTH) {
+      return text + HASHTAG_SEPARATOR + suffix;
     }
     return text;
   }
