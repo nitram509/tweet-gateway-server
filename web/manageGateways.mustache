@@ -46,15 +46,16 @@
         <h4 class="text-primary">{{url}}</h4>
       </div>
       <div class="col-md-3">
-          <form method="post" action="/gateways/{{gatewayId.id}}">
-            <div class="input-group">
-              <input class="form-control" type="text" name="suffix" value="{{suffix}}" maxlength="140">
-              <input class="form-control" type="hidden" name="action" value="update"/>
+        <form method="post" action="/gateways/{{gatewayId.id}}">
+          <div class="input-group">
+            <input class="form-control" type="text" name="suffix" value="{{suffix}}" maxlength="140">
+            <input class="form-control" type="hidden" name="action" value="update"/>
               <span class="input-group-btn">
-                <button class="btn btn-default" type="submit" title="Update"><i class="glyphicon glyphicon-floppy-save"> </i></button>
+                <button class="btn btn-default" type="submit" title="Update"><i class="glyphicon glyphicon-floppy-save"> </i>
+                </button>
               </span>
-            </div>
-          </form>
+          </div>
+        </form>
       </div>
       <div class="col-xs-1">
         <span class="text-info">{{activity}}</span>
@@ -75,9 +76,14 @@
       <div class="panel panel-default">
         <!-- Default panel contents -->
         <div class="panel-heading">
-          <h4 class="panel-title">Create new Tweet Gateway</h4>
+          <h4 class="panel-title">
+            Create new Tweet Gateway
+            <button class="btn btn-xs pull-right" type="button" title="Create new Tweet" id="btnCreateNew">
+              <i class="glyphicon glyphicon-plus-sign"> </i>
+            </button>
+          </h4>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" style="display: none" id="panelCreateNew">
           <form class="form-inline" role="form" method="post" action="/gateways" name="createGateway">
             {{{recaptchaHtml}}}
             <button id="btnCreate" class="btn btn-lg btn-primary" title="Create new">Create</button>
@@ -88,6 +94,15 @@
   </div>
 
 </div>
+
+<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript">
+  (function (wnd) {
+    wnd.jQuery("#btnCreateNew").click(function(event){
+      wnd.jQuery("#panelCreateNew").toggle('fast');
+    });
+  })(window);
+</script>
 
 </body>
 </html>
