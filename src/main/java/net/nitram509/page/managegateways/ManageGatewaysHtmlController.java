@@ -4,16 +4,14 @@
  */
 package net.nitram509.page.managegateways;
 
-import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
-import com.github.mustachejava.MustacheFactory;
 import net.nitram509.controller.SessionVisitor;
-import net.nitram509.gateways.GatewayUrlBuilder;
 import net.nitram509.gateways.api.Gateway;
 import net.nitram509.gateways.api.UserId;
 import net.nitram509.gateways.api.UserProfile;
 import net.nitram509.gateways.repository.TweetGateway;
 import net.nitram509.gateways.repository.TweetGatewayRepository;
+import net.nitram509.mustache.MustacheToolbox;
 import net.nitram509.recaptcha.ReCaptchaService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +21,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.io.IOException;
-import java.io.StringWriter;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -39,6 +36,8 @@ public class ManageGatewaysHtmlController {
 
   public static String MANAGE_GATEWAYS_URL = "/manageGateways.html";
 
+  private MustacheToolbox mustacheToolbox = new MustacheToolbox();
+
   private final Mustache mustache;
   private final TweetGatewayRepository repository = TweetGateway.getRepository();
   private final ReCaptchaService reCaptchaService = new ReCaptchaService();
@@ -47,8 +46,7 @@ public class ManageGatewaysHtmlController {
   UriInfo uriInfo;
 
   public ManageGatewaysHtmlController() {
-    MustacheFactory mf = new DefaultMustacheFactory();
-    mustache = mf.compile("web/manageGateways.mustache");
+    mustache = mustacheToolbox.compileOptimized("web/manageGateways.mustache");
   }
 
   @GET
