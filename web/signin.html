@@ -8,7 +8,7 @@
   <meta name="description" content="Tweet Gateway Server">
   <meta name="author" content="Martin W. Kirst">
 
-  <title>Tweet Gateway Server</title>
+  <title>Tweet Gateway</title>
 
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/tweet-gateway-server.css" rel="stylesheet">
@@ -20,21 +20,94 @@
 
   <div class="row" style="background-color:#427ab9">
     <div class="col-md-10 col-md-offset-1 bg-primary">
-      <h1 class="page-header">Tweet Gateway Server</h1>
+      <h1 class="page-header">Tweet Gateway</h1>
+    </div>
+  </div>
+
+  <div class="row">&nbsp;<!-- spacer --></div>
+
+  <div class="row">
+    <div class="col-md-offset-1 col-md-10">
+      <h2>About</h2>
+      <p>
+        Tweet Gateway will post tweets for you, just by calling a simple URL.
+        Thus you can enable every other service to post tweets on Twitter.
+      </p>
+    </div>
+  </div>
+  <!--<div class="row">-->
+    <!--<div class="col-md-offset-1 col-md-3">-->
+      <!--a-->
+    <!--</div>-->
+    <!--<div class="col-md-3">-->
+      <!--b-->
+    <!--</div>-->
+    <!--<div class="col-md-3">-->
+      <!--c-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <div class="row">&nbsp;<!-- spacer --></div>
+
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <div class="well well-sm text-center">
+        <form action="/doTwitterSignIn" method="post">
+          <button type="submit" class="transparent-button"><img src="img/sign-in-with-twitter-gray.png" width="158" height="28"
+                                                                alt="sign-in-with-twitter"
+                                                                title="Sign in will redirect you to Twitter">
+          </button>
+        </form>
+      </div>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-md-10 col-md-offset-1">
+    <div class="col-md-offset-1 col-md-10">
+      
+      <h4>Example: Forwarding incoming SMS</h4>
+      
       <p>
-
-      <form action="/doTwitterSignIn" method="post">
-        <button type="submit" class="transparent-button"><img src="img/sign-in-with-twitter-gray.png" width="158" height="28"
-                                                              alt="sign-in-with-twitter"
-                                                              title="Sign in will redirect you to Twitter">
-        </button>
-      </form>
+        For example, you can use Tweet Gateway to automatically tweet the text of incoming SMS from your smartphone.
+        I've used an app like <a href="https://play.google.com/store/apps/details?id=eu.apksoft.android.smsgateway">SMS Gateway</a> for this, many times.
       </p>
+
+      <p>Once installed on your smartphone, you configure this app like this:</p>
+      
+      <ol>
+        <li>Settings -> Activate "Forward incoming SMS to HTTP"</li>
+        <li>HTTP Settings -> Set your URL for "Forward incoming SMS to HTTP" -> "http://myserver/gw/1234567890abcdef"</li>
+        <li>Start the gateway</li>
+      </ol>
+      
+      <p>
+        SMS Gateway will append the URL request parameters like this <i>http://myserver/gw/1234567890abcdef?text=test</i>
+        - Thus Tweet Gateway will post the text '<i>test</i>' for you.
+      </p>
+
+    </div>
+  </div>
+
+  <div class="row">&nbsp;<!-- spacer --></div>
+
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+
+      <h4>Privacy</h4>
+      <small>
+        <p>
+        This service can only be accessed when signed in with Twitter. The user's secret access credentials are stored and transmitted encrypted.
+        There is a lot of effort done to protect you and your data.
+      </p>
+      <p>
+        After sign in, you're able to create your own gateway URLs. These URLs are 16 characters long and contain letters and digits.
+        This means, there are 5,227,573,613,485,916,806,405,226,496 different combinations possible. This is equal to a strength of 92bit.
+        Brute forcing a URL will take way more the 100 years of computing power.
+      </p>
+      <p>
+        Please, keep your personal gateway URLs secret.
+      </p>
+      </small>
     </div>
   </div>
 
@@ -43,7 +116,7 @@
 <div id="footer">
   <div class="container">
     <p class="text-muted">
-      This service is free of charge. Use at your own risk. &copy; 2014 Martin W. Kirst
+      This service is free of charge. Use at your own risk. This service doesn't have any relationship to Twitter Inc. but was developed by &copy; 2014 Martin W. Kirst
       <a href="https://twitter.com/nitram509"><img src="img/glyphicons_bird.png" width="24" height="24" alt="Follow me on Twitter" title="Follow me&nbsp;on Twitter"></a>
       <a href="https://github.com/nitram509/twitter-gateway-server"><img src="img/glyphicons_401_github.png" width="24" height="24" alt="Fork me on GitHub" title="Fork me on Github"></a>
     </p>

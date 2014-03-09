@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Tweet Gateway Server - {{userProfile.name}}</title>
+  <title>Tweet Gateway - {{userProfile.name}}</title>
 
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/tweet-gateway-server.css" rel="stylesheet">
@@ -29,11 +29,22 @@
     </div>
   </div>
 
-  <br>
+  <div class="row">
+    <div class="col-md-offset-1 col-md10">
+      <br>
+      <p>
+        <strong>Please, keep your personal gateway URLs secret.</strong>
+      </p>
+      <p>
+        <strong>Usage:</strong> Use your URL and append the query parameter '<i>text=my_tweet_text</i>'<br>
+        <strong>Example:</strong> <span style="font-family: 'Courier New', courier, monospace">{{baseUrl}}gw/1234567890123456?text=foo+bar<br></span>
+      </p>
+    </div>
+  </div>
 
   <div class="row">
-    <div class="col-md-offset-1 col-md-5 panel panel-heading"><h4>Secret URL</h4></div>
-    <div class="col-md-3 panel panel-heading"><h4>Suffix</h4></div>
+    <div class="col-md-offset-1 col-md-5 panel panel-heading"><h4>Secret URL for posting tweets</h4></div>
+    <div class="col-md-3 panel panel-heading"><h4>Append this to every tweet</h4></div>
     <div class="col-xs-1 panel panel-heading"><h4>Activity</h4></div>
     <div class="col-xs-1 panel panel-heading"><h4>Action</h4></div>
   </div>
@@ -90,12 +101,33 @@
     </div>
   </div>
 
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+
+      <h4>Privacy</h4>
+      <small>
+      <p>
+        This service can only be accessed when signed in with Twitter. The user's secret access credentials are stored and transmitted encrypted.
+        There is a lot of effort done to protect you and your data.
+      </p>
+      <p>
+        After sign in, you're able to create your own gateway URLs. These URLs are 16 characters long and contain letters and digits.
+        This means, there are 5,227,573,613,485,916,806,405,226,496 different combinations possible. This is equal to a strength of 92bit.
+        Brute forcing a URL will take way more the 100 years of computing power.
+      </p>
+      <p>
+        <strong>Please, keep your personal gateway URLs secret.</strong>
+      </p>
+      </small>
+    </div>
+  </div>
+
 </div>
 
 <div id="footer">
   <div class="container">
     <p class="text-muted">
-      This service is free of charge. Use at your own risk. &copy; 2014 Martin W. Kirst
+      This service is free of charge. Use at your own risk. This service doesn't have any relationship to Twitter Inc. but was developed by &copy; 2014 Martin W. Kirst
       <a href="https://twitter.com/nitram509"><img src="img/glyphicons_bird.png" width="24" height="24" alt="Follow me on Twitter" title="Follow me&nbsp;on Twitter"></a>
       <a href="https://github.com/nitram509/twitter-gateway-server"><img src="img/glyphicons_401_github.png" width="24" height="24" alt="Fork me on GitHub" title="Fork me on Github"></a>
     </p>

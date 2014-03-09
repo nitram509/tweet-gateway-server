@@ -70,7 +70,7 @@ public class ManageGatewaysHtmlController {
     List<Gateway> gateways = repository.findGateways(userId);
     List<GatewayInfo> gatewayInfos = enrichGateways(gateways);
     String recaptchaHtml = reCaptchaService.createCaptchaHtml();
-    return new ManageGatewaysHtmlContext(userProfile, gatewayInfos, recaptchaHtml);
+    return new ManageGatewaysHtmlContext(userProfile, gatewayInfos, recaptchaHtml, uriInfo.getBaseUri().toString());
   }
 
   private List<GatewayInfo> enrichGateways(List<Gateway> gateways) {
