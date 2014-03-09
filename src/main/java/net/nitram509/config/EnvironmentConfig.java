@@ -3,17 +3,18 @@ package net.nitram509.config;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class EnvironmentConfig implements Mandatory, Optional {
-  
+public class EnvironmentConfig implements Mandatory, Optional, Provided {
+
   static final String ENV_VAR__DATABASE_URL = "DATABASE_URL";
   static final String ENV_VAR__PERSONAL_DATABASE_SECRET = "personal.database.secret";
   static final String ENV_VAR__RE_CAPTCHA_PUBLIC_KEY = "reCaptcha.public.key";
   static final String ENV_VAR__RE_CAPTCHA_PRIVATE_KEY = "reCaptcha.private.key";
   static final String ENV_VAR__TWITTER4J_OAUTH_CONSUMER_KEY = "twitter4j.oauth.consumerKey";
   static final String ENV_VAR__TWITTER4J_OAUTH_CONSUMER_SECRET = "twitter4j.oauth.consumerSecret";
+  static final String ENV_VAR__X_FORWARDED_PROTO = "X-Forwarded-Proto";
 
   static final String DEFAULT_DATABASE_SECRET = "This is the default secret key for Encryption/Decryption sensitive user date in database";
-  
+
   @Override
   public String consumerKey() {
     return System.getenv(ENV_VAR__TWITTER4J_OAUTH_CONSUMER_KEY);
@@ -66,5 +67,11 @@ public class EnvironmentConfig implements Mandatory, Optional {
   public String getPersonalDatabaseSecret() {
     String secret = System.getenv(ENV_VAR__PERSONAL_DATABASE_SECRET);
     return secret != null ? secret : DEFAULT_DATABASE_SECRET;
+  }
+
+  @Override
+  public String getForwardedProto() {
+    String proto = System.getenv(ENV_VAR__X_FORWARDED_PROTO);
+    return proto == null ? "http" : proto;
   }
 }

@@ -5,6 +5,7 @@
 package net.nitram509.page.managegateways;
 
 import com.github.mustachejava.Mustache;
+import net.nitram509.config.EnvironmentConfig;
 import net.nitram509.controller.SessionVisitor;
 import net.nitram509.gateways.api.Gateway;
 import net.nitram509.gateways.api.UserId;
@@ -36,11 +37,13 @@ public class ManageGatewaysHtmlController {
 
   public static String MANAGE_GATEWAYS_URL = "/manageGateways.html";
 
-  private MustacheToolbox mustacheToolbox = new MustacheToolbox();
+  private final MustacheToolbox mustacheToolbox = new MustacheToolbox();
 
   private final Mustache mustache;
   private final TweetGatewayRepository repository = TweetGateway.getRepository();
   private final ReCaptchaService reCaptchaService = new ReCaptchaService();
+
+  private final EnvironmentConfig config = new EnvironmentConfig();
 
   @Context
   UriInfo uriInfo;
@@ -70,14 +73,14 @@ public class ManageGatewaysHtmlController {
     List<Gateway> gateways = repository.findGateways(userId);
     List<GatewayInfo> gatewayInfos = enrichGateways(gateways);
     String recaptchaHtml = reCaptchaService.createCaptchaHtml();
-    return new ManageGatewaysHtmlContext(userProfile, gatewayInfos, recaptchaHtml, uriInfo.getBaseUri().toString());
+    return new ManageGatewaysHtmlContext(userProfile, gatewayInfos, recaptchaHtml, placeCorrectProtocol(uriInfo.getBaseUri().toString()));
   }
 
   private List<GatewayInfo> enrichGateways(List<Gateway> gateways) {
     ArrayList<GatewayInfo> gatewayInfos = new ArrayList<>();
     for (Gateway gateway : gateways) {
       final GatewayInfo gwi = new GatewayInfo(gateway);
-      gwi.setUrl(createUrl(uriInfo.getBaseUri(), gateway.getId()));
+      gwi.setUrl(createUrl(placeCorrectProtocol(uriInfo.getBaseUri().toString()), gateway.getId()));
       gatewayInfos.add(gwi);
     }
     return gatewayInfos;
@@ -87,6 +90,11 @@ public class ManageGatewaysHtmlController {
     StringWriter html = new StringWriter();
     mustache.execute(html, model).flush();
     return html.toString();
+  }
+
+  String placeCorrectProtocol(String requestUrl) {
+    int i = requestUrl.indexOf("://");
+    return config.getForwardedProto() + "://" + requestUrl.substring(i + 3);
   }
 
 }

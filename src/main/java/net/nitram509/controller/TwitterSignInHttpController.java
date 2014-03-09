@@ -1,5 +1,6 @@
 package net.nitram509.controller;
 
+import net.nitram509.config.EnvironmentConfig;
 import net.nitram509.twitter.TwitterClientToolbox;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -25,6 +26,8 @@ public class TwitterSignInHttpController {
 
   private TwitterClientToolbox twitterClientToolbox = new TwitterClientToolbox();
 
+  EnvironmentConfig config = new EnvironmentConfig();
+
   @POST
   @Produces({TEXT_PLAIN})
   public Response doTwitterSignIn(@Context HttpServletRequest request) throws TwitterException, IOException, URISyntaxException {
@@ -44,7 +47,13 @@ public class TwitterSignInHttpController {
 
   private String computeCallbackUrl(HttpServletRequest request) {
     String requestUrl = request.getRequestURL().toString();
+    requestUrl = placeCorrectProtocol(requestUrl);
     return requestUrl.substring(0, requestUrl.indexOf(DO_TWITTER_SIGN_IN)) + DO_TWITTER_CALLBACK;
+  }
+
+  String placeCorrectProtocol(String requestUrl) {
+    int i = requestUrl.indexOf("://");
+    return config.getForwardedProto() + "://" + requestUrl.substring(i + 3);
   }
 
 }
