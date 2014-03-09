@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Tweet Gateway Server">
+  <meta name="author" content="Martin W. Kirst">
 
   <title>Tweet Gateway Server</title>
 
@@ -14,24 +16,39 @@
 
 <body>
 
-<h1 class="page-header">Tweet Gateway Server</h1>
+<div class="container-fluid">
 
-<div class="well">
-  <p>
-    Work in progress ...
-  </p>
+  <div class="row" style="background-color:#427ab9">
+    <div class="col-md-10 col-md-offset-1 bg-primary">
+      <h1 class="page-header">Tweet Gateway Server</h1>
+    </div>
+  </div>
 
-  <form action="/doTwitterSignIn" method="post">
-    <button type="submit" class="transparent-button"><img src="img/sign-in-with-twitter-gray.png" width="158" height="28"
-                                                          alt="sign-in-with-twitter" title="Sign in will redirect you to Twitter">
-    </button>
-  </form>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <p>
+
+      <form action="/doTwitterSignIn" method="post">
+        <button type="submit" class="transparent-button"><img src="img/sign-in-with-twitter-gray.png" width="158" height="28"
+                                                              alt="sign-in-with-twitter"
+                                                              title="Sign in will redirect you to Twitter">
+        </button>
+      </form>
+      </p>
+    </div>
+  </div>
 
 </div>
 
-<a href="https://github.com/nitram509/twitter-gateway-server"><img style="position: absolute; top: 0; right: 0; border: 0;"
-                                                                   src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"
-                                                                   alt="Fork me on GitHub"></a>
+<div id="footer">
+  <div class="container">
+    <p class="text-muted">
+      This service is free of charge. Use at your own risk. &copy; 2014 Martin W. Kirst
+      <a href="https://twitter.com/nitram509"><img src="img/glyphicons_bird.png" width="24" height="24" alt="Follow me on Twitter" title="Follow me&nbsp;on Twitter"></a>
+      <a href="https://github.com/nitram509/twitter-gateway-server"><img src="img/glyphicons_401_github.png" width="24" height="24" alt="Fork me on GitHub" title="Fork me on Github"></a>
+    </p>
+  </div>
+</div>
 
 </body>
 </html>
