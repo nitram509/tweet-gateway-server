@@ -122,7 +122,7 @@ public class TweetGatewayRepositoryPostgreSQL implements TweetGatewayRepository 
     try {
       statement = connection.prepareStatement(query);
       int idx = 1;
-      statement.setString(idx++, gateway.getId().getId());
+      statement.setString(idx++, cryptoHelper.encrypt(gateway.getId().getId()));
       statement.setLong(idx++, gateway.getOwner().getId());
       statement.setInt(idx++, gateway.getActivity());
       statement.setString(idx++, gateway.getSuffix());
@@ -149,7 +149,7 @@ public class TweetGatewayRepositoryPostgreSQL implements TweetGatewayRepository 
     try {
       statement = connection.prepareStatement(query);
       statement.setString(1, suffix);
-      statement.setString(2, gatewayId.getId());
+      statement.setString(2, cryptoHelper.encrypt(gatewayId.getId()));
       statement.executeUpdate();
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -172,7 +172,7 @@ public class TweetGatewayRepositoryPostgreSQL implements TweetGatewayRepository 
     PreparedStatement statement = null;
     try {
       statement = connection.prepareStatement(query);
-      statement.setString(1, gatewayId.getId());
+      statement.setString(1, cryptoHelper.encrypt(gatewayId.getId()));
       statement.executeUpdate();
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -202,7 +202,7 @@ public class TweetGatewayRepositoryPostgreSQL implements TweetGatewayRepository 
       statement.setLong(1, owner.getId());
       final ResultSet resultSet = statement.executeQuery();
       while (resultSet.next()) {
-        final Gateway gwi = new Gateway(new GatewayId(resultSet.getString("id")));
+        final Gateway gwi = new Gateway(new GatewayId(cryptoHelper.decrypt(resultSet.getString("id"))));
         gwi.setOwner(new UserId(resultSet.getLong("owner")));
         gwi.setActivity(resultSet.getInt("activity"));
         gwi.setSuffix(resultSet.getString("suffix"));
@@ -232,7 +232,7 @@ public class TweetGatewayRepositoryPostgreSQL implements TweetGatewayRepository 
     PreparedStatement statement = null;
     try {
       statement = connection.prepareStatement(query);
-      statement.setString(1, gatewayId.getId());
+      statement.setString(1, cryptoHelper.encrypt(gatewayId.getId()));
       final ResultSet resultSet = statement.executeQuery();
       while (resultSet.next()) {
         result = new Gateway(new GatewayId(resultSet.getString("id")));
@@ -261,7 +261,7 @@ public class TweetGatewayRepositoryPostgreSQL implements TweetGatewayRepository 
     PreparedStatement statement = null;
     try {
       statement = connection.prepareStatement(query);
-      statement.setString(1, gatewayId.getId());
+      statement.setString(1, cryptoHelper.encrypt(gatewayId.getId()));
       statement.executeUpdate();
     } catch (SQLException e) {
       throw new RuntimeException(e);

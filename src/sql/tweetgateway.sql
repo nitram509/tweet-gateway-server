@@ -3,7 +3,7 @@
 
 CREATE TABLE gateway
 (
-    id CHAR(16) PRIMARY KEY NOT NULL,
+    id VARCHAR(64) PRIMARY KEY NOT NULL,
     owner BIGINT NOT NULL,
     activity INT NOT NULL,
     suffix VARCHAR(140)
