@@ -3,6 +3,20 @@
 Offers a simple HTTP interface, without any authentication,
 and forwards/tweets every message to a well known twitter account.
 
+## Example: Forwarding incoming SMS
+
+For example, you can use Tweet Gateway to automatically tweet the text of incoming SMS from your smartphone.
+Iv've used an app like  [SMS Gateway](https://play.google.com/store/apps/details?id=eu.apksoft.android.smsgateway) for this, many times.
+
+Once installed on your smartphone, you configure this app like this:
+
+1. Settings -> Activate "Forward incoming SMS to HTTP"
+2. HTTP Settings -> Set your URL for "Forward incoming SMS to HTTP" -> "http://myserver/gw/1234567890abcdef"
+3. Start the gateway
+
+   SMS Gateway will append the URL request parameters like this "http://myserver/smsgateway?text=testTEXT&phone=123456789&smscenter=xxxxxxx"
+   Thus Tweet Gateway will post the text 'testTEXT' for you.
+
 ## Configuration
 
 ### Twitter OAuth configuration (ConsumerKey & ConsumerSecret)
@@ -26,19 +40,36 @@ Create a new Twitter application there and follow these steps:
 6. Allow this application to be used to Sign in with Twitter -> Check
 7. done.
 
-## Example: Forwarding incoming SMS
+### Database URL
 
-For example, you can use Tweet Gateway to automatically tweet the text of incoming SMS from your smartphone.
-Iv've used an app like  [SMS Gateway](https://play.google.com/store/apps/details?id=eu.apksoft.android.smsgateway) for this, many times.
+Tweet Gateway uses a PostgreSQL database. Configure your JDBC-URL here.
+Example "postgres://user3123:passkja83kd8@ec2-117-21-174-214.compute-1.amazonaws.com:6212/db982398"
 
-Once installed on your smartphone, you configure this app like this:
+````
+Environment variable 'DATABASE_URL'
+````
 
-1. Settings -> Activate "Forward incoming SMS to HTTP"
-2. HTTP Settings -> Set your URL for "Forward incoming SMS to HTTP" -> "http://myserver/gw/1234567890abcdef"
-3. Start the gateway
+### Database personal secret (optional)
 
-   SMS Gateway will append the URL request parameters like this "http://myserver/smsgateway?text=testTEXT&phone=123456789&smscenter=xxxxxxx"
-   Thus Tweet Gateway will post the text 'testTEXT' for you.
+This key is used to encrypt all your users data. Use a strong passphrase ;-)
+Example: "personal.database.secret=sjdfhgkj2hkjhkljhkl23klj2h34jh2g"
+If this config is absent, a default encryption key is used.
+
+````
+Environment variable 'personal.database.secret'
+````
+
+### reCAPTCHA (optional)
+
+In order to prevent bots from automatically using this service, reCAPTCHA is used.
+Grab your keys from reCAPTCHA and configure this service.
+If you provide keys, reCAPTCHA will be used - else not.
+
+````
+Environment variable 'reCaptcha.public.key'
+Environment variable 'reCaptcha.private.key'
+````
+
 
 ## Development
 
