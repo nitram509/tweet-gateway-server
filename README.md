@@ -70,6 +70,17 @@ Environment variable 'reCaptcha.public.key'
 Environment variable 'reCaptcha.private.key'
 ````
 
+## Privacy
+
+This service can only be accessed when signed in with Twitter.
+The user's secret access credentials are stored and transmitted encrypted.
+There is a lot of effort done to protect you and your data.
+
+After sign in, you're able to create your own gateway URLs.
+These URLs are 16 characters long and contain letters and digits.
+This means, there are 5,227,573,613,485,916,806,405,226,496 different combinations possible.
+This is equal to a strength of 92bit.
+Brute forcing a URL will take way more the 100 years of computing power.
 
 ## Development
 
