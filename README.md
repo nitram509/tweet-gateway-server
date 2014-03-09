@@ -5,12 +5,6 @@ and forwards/tweets every message to a well known twitter account.
 
 ## Configuration
 
-### Default hashtag
-
-````
-Environment variable 'defaultHashTag' --> set this to provide a default hashtag, which is appended to every message
-````
-
 ### Twitter OAuth configuration (ConsumerKey & ConsumerSecret)
 
 This server needs an OAuth 'consumerKey' and 'consumerSecret' to authenticate against Twitter.
@@ -34,16 +28,17 @@ Create a new Twitter application there and follow these steps:
 
 ## Example: Forwarding incoming SMS
 
-For example, you can use this gateway to automatically tweet incoming SMS from your smartphone.
-We've used [SMS Gateway](https://play.google.com/store/apps/details?id=eu.apksoft.android.smsgateway) tool for this.
+For example, you can use Tweet Gateway to automatically tweet the text of incoming SMS from your smartphone.
+Iv've used an app like  [SMS Gateway](https://play.google.com/store/apps/details?id=eu.apksoft.android.smsgateway) for this, many times.
 
 Once installed on your smartphone, you configure this app like this:
 
 1. Settings -> Activate "Forward incoming SMS to HTTP"
-2. HTTP Settings -> Set your URL for "Forward incoming SMS to HTTP" -> "http://myserver/smsgateway"
+2. HTTP Settings -> Set your URL for "Forward incoming SMS to HTTP" -> "http://myserver/gw/1234567890abcdef"
 3. Start the gateway
 
-   SMS Gateway will append the URL request parameters like this "http://myserver/smsgateway?phone=123456789&text=testTEXT&smscenter=xxxxxxx"
+   SMS Gateway will append the URL request parameters like this "http://myserver/smsgateway?text=testTEXT&phone=123456789&smscenter=xxxxxxx"
+   Thus Tweet Gateway will post the text 'testTEXT' for you.
 
 ## Development
 
