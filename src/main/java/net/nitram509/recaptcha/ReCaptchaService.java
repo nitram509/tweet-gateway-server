@@ -26,8 +26,11 @@ public class ReCaptchaService {
   }
 
   public boolean isValidCaptcha(String remoteAddr, String recaptchaChallenge, String recaptchaResponse) {
-    ReCaptchaResponse reCaptchaResponse = reCaptcha.checkAnswer(remoteAddr, recaptchaChallenge, recaptchaResponse);
-    return reCaptchaResponse.isValid();
+    if (config.hasCaptchaKeys()) {
+      ReCaptchaResponse reCaptchaResponse = reCaptcha.checkAnswer(remoteAddr, recaptchaChallenge, recaptchaResponse);
+      return reCaptchaResponse.isValid();
+    }
+    return true;
   }
 
 }
