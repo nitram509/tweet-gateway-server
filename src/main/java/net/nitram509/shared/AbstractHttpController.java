@@ -20,33 +20,39 @@
  * THE SOFTWARE.
  */
 
-package net.nitram509.controller;
+package net.nitram509.shared;
 
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import net.nitram509.config.EnvironmentConfig;
 
-import static org.fest.assertions.Assertions.assertThat;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.UriInfo;
+import java.util.List;
 
-public class TwitterSignInHttpControllerTest {
+public class AbstractHttpController {
 
-  private TwitterSignInHttpController controller;
+  /**
+   * [...] a de facto standard for identifying the originating protocol of an HTTP request,
+   * since a reverse proxy (load balancer) communicates with a web server using HTTP [...]
+   * @see <a href="http://de.wikipedia.org/wiki/Liste_der_HTTP-Headerfelder">Wikipedia</a>
+   * @return
+   */
+  public static final String HTTP_HEADER__X_FORWARDED_PROTO = "X-Forwarded-Proto";
 
-  @BeforeMethod
-  public void setUp() throws Exception {
-    controller = new TwitterSignInHttpController();
-    String getenv = System.getenv("X-Forwarded-Proto");
-    if (getenv == null) {
-      throw new RuntimeException("Please, provide environment variable X-Forwarded-Proto=https'");
+  @Context
+  protected HttpHeaders httpHeaders;
+
+  @Context
+  protected UriInfo uriInfo;
+
+  protected String replaceCorrectProtocol(String requestUrl) {
+    List<String> forwardedProtoHeaders = httpHeaders.getRequestHeader(HTTP_HEADER__X_FORWARDED_PROTO);
+    if (forwardedProtoHeaders != null && !forwardedProtoHeaders.isEmpty()) {
+      int i = requestUrl.indexOf("://");
+      if (i >= 0) {
+        return forwardedProtoHeaders.get(0) + "://" + requestUrl.substring(i + 3);
+      }
     }
+    return requestUrl;
   }
-
-
-  @Test(enabled = false)
-  public void places_correct_protocoll() {
-    String url = controller.placeCorrectProtocol("http://www.example.org/foo?bar");
-
-    assertThat(url).isEqualTo("https://www.example.org/foo?bar");
-  }
-
-
 }

@@ -55,9 +55,6 @@ public class TwitterCallbackHttpController {
   private TweetGatewayRepository repository = TweetGateway.getRepository();
   private TwitterClientToolbox twitterClientToolbox = new TwitterClientToolbox();
 
-  @Context
-  UriInfo uriInfo;
-
   @GET
   @Produces({TEXT_PLAIN})
   public Response doTwitterCallback(@QueryParam(value = "oauth_token") String oauth_token,

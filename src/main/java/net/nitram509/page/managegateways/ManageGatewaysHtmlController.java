@@ -23,7 +23,6 @@
 package net.nitram509.page.managegateways;
 
 import com.github.mustachejava.Mustache;
-import net.nitram509.config.EnvironmentConfig;
 import net.nitram509.controller.SessionVisitor;
 import net.nitram509.gateways.api.Gateway;
 import net.nitram509.gateways.api.UserId;
@@ -32,6 +31,7 @@ import net.nitram509.gateways.repository.TweetGateway;
 import net.nitram509.gateways.repository.TweetGatewayRepository;
 import net.nitram509.mustache.MustacheToolbox;
 import net.nitram509.recaptcha.ReCaptchaService;
+import net.nitram509.shared.AbstractHttpController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -39,8 +39,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
-import java.io.*;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import static net.nitram509.gateways.GatewayUrlBuilder.createUrl;
 
 @Path("/manageGateways.html")
-public class ManageGatewaysHtmlController {
+public class ManageGatewaysHtmlController extends AbstractHttpController {
 
   public static String MANAGE_GATEWAYS_URL = "/manageGateways.html";
 
@@ -60,11 +60,6 @@ public class ManageGatewaysHtmlController {
   private final Mustache mustache;
   private final TweetGatewayRepository repository = TweetGateway.getRepository();
   private final ReCaptchaService reCaptchaService = new ReCaptchaService();
-
-  private final EnvironmentConfig config = new EnvironmentConfig();
-
-  @Context
-  UriInfo uriInfo;
 
   public ManageGatewaysHtmlController() {
     mustache = mustacheToolbox.compileOptimized("web/manageGateways.mustache");
@@ -91,14 +86,14 @@ public class ManageGatewaysHtmlController {
     List<Gateway> gateways = repository.findGateways(userId);
     List<GatewayInfo> gatewayInfos = enrichGateways(gateways);
     String recaptchaHtml = reCaptchaService.createCaptchaHtml();
-    return new ManageGatewaysHtmlContext(userProfile, gatewayInfos, recaptchaHtml, placeCorrectProtocol(uriInfo.getBaseUri().toString()));
+    return new ManageGatewaysHtmlContext(userProfile, gatewayInfos, recaptchaHtml, replaceCorrectProtocol(uriInfo.getBaseUri().toString()));
   }
 
   private List<GatewayInfo> enrichGateways(List<Gateway> gateways) {
     ArrayList<GatewayInfo> gatewayInfos = new ArrayList<>();
     for (Gateway gateway : gateways) {
       final GatewayInfo gwi = new GatewayInfo(gateway);
-      gwi.setUrl(createUrl(placeCorrectProtocol(uriInfo.getBaseUri().toString()), gateway.getId()));
+      gwi.setUrl(createUrl(replaceCorrectProtocol(uriInfo.getBaseUri().toString()), gateway.getId()));
       gatewayInfos.add(gwi);
     }
     return gatewayInfos;
@@ -108,11 +103,6 @@ public class ManageGatewaysHtmlController {
     StringWriter html = new StringWriter();
     mustache.execute(html, model).flush();
     return html.toString();
-  }
-
-  String placeCorrectProtocol(String requestUrl) {
-    int i = requestUrl.indexOf("://");
-    return config.getForwardedProto() + "://" + requestUrl.substring(i + 3);
   }
 
 }

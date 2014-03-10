@@ -22,7 +22,7 @@
 
 package net.nitram509.controller;
 
-import net.nitram509.config.EnvironmentConfig;
+import net.nitram509.shared.AbstractHttpController;
 import net.nitram509.twitter.TwitterClientToolbox;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -41,14 +41,12 @@ import java.net.URISyntaxException;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 
 @Path("/doTwitterSignIn")
-public class TwitterSignInHttpController {
+public class TwitterSignInHttpController extends AbstractHttpController {
 
   public static final String DO_TWITTER_SIGN_IN = "/doTwitterSignIn";
   public static final String DO_TWITTER_CALLBACK = "/doTwitterCallback";
 
   private TwitterClientToolbox twitterClientToolbox = new TwitterClientToolbox();
-
-  EnvironmentConfig config = new EnvironmentConfig();
 
   @POST
   @Produces({TEXT_PLAIN})
@@ -69,13 +67,8 @@ public class TwitterSignInHttpController {
 
   private String computeCallbackUrl(HttpServletRequest request) {
     String requestUrl = request.getRequestURL().toString();
-    requestUrl = placeCorrectProtocol(requestUrl);
+    requestUrl = replaceCorrectProtocol(requestUrl);
     return requestUrl.substring(0, requestUrl.indexOf(DO_TWITTER_SIGN_IN)) + DO_TWITTER_CALLBACK;
-  }
-
-  String placeCorrectProtocol(String requestUrl) {
-    int i = requestUrl.indexOf("://");
-    return config.getForwardedProto() + "://" + requestUrl.substring(i + 3);
   }
 
 }
