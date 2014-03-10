@@ -33,13 +33,13 @@ import net.nitram509.gateways.api.UserId;
 import net.nitram509.gateways.repository.TweetGateway;
 import net.nitram509.gateways.repository.TweetGatewayRepository;
 import net.nitram509.recaptcha.ReCaptchaService;
+import net.nitram509.shared.AbstractHttpController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import java.net.URI;
 import java.net.URISyntaxException;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED;
@@ -49,7 +49,7 @@ import static net.nitram509.page.managegateways.ManageGatewaysHtmlController.MAN
 import static net.nitram509.twitter.TwitterTextHelper.makeSafeSuffix;
 
 @Path("/gateways")
-public class GatewaysResourceHttpController {
+public class GatewaysResourceHttpController extends AbstractHttpController{
 
   public static final String ACTION_DELETE = "delete";
   private static final String ACTION_UPDATE = "update";
@@ -77,7 +77,7 @@ public class GatewaysResourceHttpController {
       }
     }
 
-    return Response.seeOther(new URI(MANAGE_GATEWAYS_URL)).build();
+    return respondSeeOther(MANAGE_GATEWAYS_URL);
   }
 
   @POST
@@ -102,7 +102,7 @@ public class GatewaysResourceHttpController {
       final SessionVisitor sessionVisitor = new SessionVisitor(session);
 
       if (!sessionVisitor.isAuthenticatedUser()) {
-        return Response.temporaryRedirect(new URI("/signin.html")).build();
+        return respondTemporaryRedirect("/signin.html");
       }
 
       if (ACTION_DELETE.equals(action)) {
@@ -114,7 +114,7 @@ public class GatewaysResourceHttpController {
       }
     }
 
-    return Response.seeOther(new URI(MANAGE_GATEWAYS_URL)).build();
+    return respondSeeOther(MANAGE_GATEWAYS_URL);
   }
 
   private void createNewGateway(UserId currentUser, String suffix) {

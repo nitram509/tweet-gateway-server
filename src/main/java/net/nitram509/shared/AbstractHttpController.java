@@ -24,9 +24,9 @@ package net.nitram509.shared;
 
 import net.nitram509.config.EnvironmentConfig;
 
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 public class AbstractHttpController {
@@ -54,5 +54,22 @@ public class AbstractHttpController {
       }
     }
     return requestUrl;
+  }
+
+  public UriBuilder getSecureAbsolutePathBuilder() {
+    List<String> forwardedProtoHeaders = httpHeaders.getRequestHeader(HTTP_HEADER__X_FORWARDED_PROTO);
+    String scheme = "http";
+    if (forwardedProtoHeaders != null && !forwardedProtoHeaders.isEmpty()) {
+      scheme = forwardedProtoHeaders.get(0);
+    }
+    return uriInfo.getAbsolutePathBuilder().scheme(scheme);
+  }
+
+  public Response respondTemporaryRedirect(String absolutePath) {
+    return Response.temporaryRedirect(getSecureAbsolutePathBuilder().replacePath(absolutePath).build()).build();
+  }
+
+  public Response respondSeeOther(String absolutePath) throws URISyntaxException {
+    return Response.seeOther(getSecureAbsolutePathBuilder().replacePath(absolutePath).build()).build();
   }
 }

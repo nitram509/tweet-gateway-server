@@ -26,6 +26,7 @@ import net.nitram509.gateways.api.UserId;
 import net.nitram509.gateways.api.UserProfile;
 import net.nitram509.gateways.repository.TweetGateway;
 import net.nitram509.gateways.repository.TweetGatewayRepository;
+import net.nitram509.shared.AbstractHttpController;
 import net.nitram509.twitter.TwitterClientToolbox;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -40,9 +41,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
@@ -50,7 +49,7 @@ import static net.nitram509.controller.TwitterSignInHttpController.DO_TWITTER_CA
 import static net.nitram509.page.managegateways.ManageGatewaysHtmlController.MANAGE_GATEWAYS_URL;
 
 @Path(DO_TWITTER_CALLBACK)
-public class TwitterCallbackHttpController {
+public class TwitterCallbackHttpController extends AbstractHttpController {
 
   private TweetGatewayRepository repository = TweetGateway.getRepository();
   private TwitterClientToolbox twitterClientToolbox = new TwitterClientToolbox();
@@ -69,7 +68,7 @@ public class TwitterCallbackHttpController {
       markUserSessionAsAuthenticated(sessionVisitor, userProfile);
     }
 
-    return Response.temporaryRedirect(new URI(MANAGE_GATEWAYS_URL)).build();
+    return respondTemporaryRedirect(MANAGE_GATEWAYS_URL);
   }
 
   public void markUserSessionAsAuthenticated(SessionVisitor sessionVisitor, UserProfile userProfile) {

@@ -41,7 +41,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +70,7 @@ public class ManageGatewaysHtmlController extends AbstractHttpController {
 
     SessionVisitor sessionVisitor = new SessionVisitor(request.getSession(false));
     if (!sessionVisitor.isAuthenticatedUser()) {
-      return Response.temporaryRedirect(new URI("/signin.html")).build();
+      return respondTemporaryRedirect("/signin.html");
     }
 
     ManageGatewaysHtmlContext model = createModel(sessionVisitor);
