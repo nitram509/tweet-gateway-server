@@ -48,8 +48,9 @@ public class MustacheToolbox {
     if (!file.exists()) {
       throw new IllegalArgumentException("File doesn't exist: " + fileName);
     }
+    InputStream is = null;
     try {
-      InputStream is = new FileInputStream(file);
+      is = new FileInputStream(file);
       InputStreamReader streamReader = new InputStreamReader(is, UTF8);
       BufferedReader reader = new BufferedReader(streamReader);
       StringBuilder buffer = new StringBuilder();
@@ -63,6 +64,12 @@ public class MustacheToolbox {
       return new StringReader(buffer.toString());
     } catch (IOException e) {
       throw new RuntimeException(e);
+    } finally {
+      try {
+        if (is != null) is.close();
+      } catch (IOException e) {
+        // ignore
+      }
     }
   }
 
