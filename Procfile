@@ -1,1 +1,1 @@
-web:  java  -Dsun.net.inetaddr.ttl=30 -cp target/classes:target/dependency/* net.nitram509.TweetGatewayServerLauncher
+web:  java -javaagent:newrelic/newrelic.jar  -Dsun.net.inetaddr.ttl=30 -cp target/classes:target/dependency/* net.nitram509.TweetGatewayServerLauncher
