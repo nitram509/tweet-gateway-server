@@ -17,7 +17,11 @@ Once installed on your smartphone, you configure this app like this:
    SMS Gateway will append the URL request parameters like this "http://myserver/smsgateway?text=testTEXT&phone=123456789&smscenter=xxxxxxx"
    Thus Tweet Gateway will post the text 'testTEXT' for you.
 
-## Configuration
+## If you want to host your own Server - Configuration
+
+**Only needed, if yout want to build and run your own server, read this ;-)**
+
+**Else, simply use the service at https://tweet-gateway.herokuapp.com/ **
 
 ### Twitter OAuth configuration (ConsumerKey & ConsumerSecret)
 
