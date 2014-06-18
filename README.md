@@ -21,7 +21,7 @@ Once installed on your smartphone, you configure this app like this:
 
 **Only needed, if yout want to build and run your own server, read this ;-)**
 
-**Else, simply use the service at https://tweet-gateway.herokuapp.com/ **
+**Else, simply use the service at https://tweet-gateway.herokuapp.com/**
 
 ### Twitter OAuth configuration (ConsumerKey & ConsumerSecret)
 
