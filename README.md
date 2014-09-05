@@ -3,6 +3,8 @@
 Offers a simple HTTP interface, without any authentication,
 and forwards/tweets every message to a well known twitter account.
 
+If you like this project, endorse please: [![endorse](https://api.coderwall.com/nitram509/endorsecount.png)](https://coderwall.com/nitram509)
+
 ## Example: Forwarding incoming SMS
 
 For example, you can use Tweet Gateway to automatically tweet the text of incoming SMS from your smartphone.
@@ -108,5 +110,5 @@ Windows:
 ````$> java -cp target/classes:target/dependency/* net.nitram509.TweetGatewayServerLauncher````
 
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/nitram509/tweet-gateway-server/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
 
