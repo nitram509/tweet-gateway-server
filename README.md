@@ -5,6 +5,12 @@ and forwards/tweets every message to a well known twitter account.
 
 If you like this project, endorse please: [![endorse](https://api.coderwall.com/nitram509/endorsecount.png)](https://coderwall.com/nitram509)
 
+
+##### License
+
+[![License](https://img.shields.io/:license-The%20MIT%20License-blue.svg)](http://opensource.org/licenses/MIT)
+
+
 ## Example: Forwarding incoming SMS
 
 For example, you can use Tweet Gateway to automatically tweet the text of incoming SMS from your smartphone.
