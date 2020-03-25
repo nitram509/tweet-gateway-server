@@ -14,7 +14,7 @@ If you like this project, endorse please: [![endorse](https://api.coderwall.com/
 ## Example: Forwarding incoming SMS
 
 For example, you can use Tweet Gateway to automatically tweet the text of incoming SMS from your smartphone.
-Iv've used an app like  [SMS Gateway](https://play.google.com/store/apps/details?id=eu.apksoft.android.smsgateway) for this, many times.
+I've used an app like  [SMS Gateway](https://play.google.com/store/apps/details?id=eu.apksoft.android.smsgateway) for this, many times.
 
 Once installed on your smartphone, you configure this app like this:
 
@@ -98,7 +98,7 @@ Brute forcing a URL will take way more the 100 years of computing power.
 
 ### Requirements
 
-* Java JDK 1.7 (or newer)
+* Java JDK 11 (or newer)
 * Maven 3.1 (or newer)
 
 ### Building
