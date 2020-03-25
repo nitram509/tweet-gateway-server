@@ -44,7 +44,7 @@ import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 public class TwitterSignInHttpController extends AbstractHttpController {
 
   private static final String DO_TWITTER_SIGN_IN = "/doTwitterSignIn";
-  private static final String DO_TWITTER_CALLBACK = "/doTwitterCallback";
+  static final String DO_TWITTER_CALLBACK = "/doTwitterCallback";
 
   private TwitterClientToolbox twitterClientToolbox = new TwitterClientToolbox();
 
