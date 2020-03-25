@@ -1,5 +1,7 @@
 package net.nitram509.controller;
 
+import org.glassfish.jersey.server.ContainerRequest;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -11,6 +13,7 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
+import java.net.URI;
 
 @Provider
 public class RedirectHttpsFilter implements ContainerRequestFilter {
@@ -24,9 +27,11 @@ public class RedirectHttpsFilter implements ContainerRequestFilter {
   public void filter(ContainerRequestContext ctx) throws IOException {
     String x_forwarded_proto_header = ctx.getHeaderString(X_FORWARDED_PROTO);
     if (x_forwarded_proto_header != null && !x_forwarded_proto_header.startsWith("https")) {
-      HttpServletRequest request = (HttpServletRequest) ctx.getRequest();
-      String pathInfo = (request.getPathInfo() != null) ? request.getPathInfo() : "";
-      response.sendRedirect("https://" + request.getServerName() + pathInfo);
+      ContainerRequest request = (ContainerRequest) ctx.getRequest();
+      String path = (request.getPath(false) != null) ? request.getPath(false) : "";
+      URI baseUri = request.getBaseUri();
+      String host_port = baseUri.getHost() + ":" + baseUri.getPort();
+      response.sendRedirect("https://" + host_port + "/" + path);
     }
   }
 
