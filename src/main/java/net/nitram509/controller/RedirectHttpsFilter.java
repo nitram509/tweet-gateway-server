@@ -25,8 +25,8 @@ public class RedirectHttpsFilter implements ContainerRequestFilter {
       ContainerRequest request = (ContainerRequest) ctx.getRequest();
       String path = (request.getPath(false) != null) ? request.getPath(false) : "";
       URI baseUri = request.getBaseUri();
-      String port = baseUri.getPort() > 0 ? Integer.toString(baseUri.getPort()) : "";
-      response.sendRedirect("https://" + baseUri.getHost() + ":" + port + "/" + path);
+      String port = baseUri.getPort() > 0 ? (":" + baseUri.getPort()) : "";
+      response.sendRedirect("https://" + baseUri.getHost() + port + "/" + path);
     }
   }
 
