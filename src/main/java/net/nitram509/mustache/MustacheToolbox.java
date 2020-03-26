@@ -27,11 +27,10 @@ import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 
 import java.io.*;
-import java.nio.charset.Charset;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class MustacheToolbox {
-
-  private static final Charset UTF8 = Charset.forName("UTF-8");
 
   public Mustache compileOptimized(String fileName) {
     MustacheFactory mf = new DefaultMustacheFactory();
@@ -48,10 +47,8 @@ public class MustacheToolbox {
     if (!file.exists()) {
       throw new IllegalArgumentException("File doesn't exist: " + fileName);
     }
-    InputStream is = null;
-    try {
-      is = new FileInputStream(file);
-      InputStreamReader streamReader = new InputStreamReader(is, UTF8);
+    try (InputStream is = new FileInputStream(file)) {
+      InputStreamReader streamReader = new InputStreamReader(is, UTF_8);
       BufferedReader reader = new BufferedReader(streamReader);
       StringBuilder buffer = new StringBuilder();
       for (String line; (line = reader.readLine()) != null; ) {
@@ -64,12 +61,6 @@ public class MustacheToolbox {
       return new StringReader(buffer.toString());
     } catch (IOException e) {
       throw new RuntimeException(e);
-    } finally {
-      try {
-        if (is != null) is.close();
-      } catch (IOException e) {
-        // ignore
-      }
     }
   }
 
