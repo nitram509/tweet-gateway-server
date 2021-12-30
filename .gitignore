@@ -2,3 +2,4 @@ twitter.properties
 target
 *.iml
 .idea
+.DS_Store
