@@ -5,7 +5,7 @@ and forwards/tweets every message to a well known twitter account.
 
 ##### Status update Aug/2022: 
 
-The code is somewhat old and some issues are known in the used dependencies.
+The code is somewhat old and at least 6 known issues in the dependencies are listed by Github's security check.
 The former free service (tweet-gateway.herokuapp.com/) was removed, because Heroku
 closed their free tiers and since this app was not much used, I'm not willing to pay
 for hosting.
